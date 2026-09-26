@@ -1,0 +1,17 @@
+
+> securiself@ test:platform /Users/Gabriel/Documents/Angela/securiself/securiself
+> pnpm --filter securiself-platform test
+
+
+> securiself-platform@0.1.0 test /Users/Gabriel/Documents/Angela/securiself/securiself/apps/securiself-platform
+> vitest run
+
+
+ RUN  v4.1.9 /Users/Gabriel/Documents/Angela/securiself/securiself/apps/securiself-platform
+
+
+ Test Files  17 passed (17)
+      Tests  88 passed (88)
+   Start at  19:56:03
+   Duration  4.67s (transform 1.85s, setup 1.48s, import 6.15s, tests 5.57s, environment 14.93s)
+

@@ -1,0 +1,494 @@
+{
+  "generatedAt": "2026-09-14T01:03:08.009Z",
+  "scans": [
+    {
+      "application": "prymecab-simulator",
+      "routeOrState": "prymecab-profile",
+      "axeTags": [
+        "wcag2a",
+        "wcag2aa",
+        "wcag21a",
+        "wcag21aa"
+      ],
+      "critical": 0,
+      "serious": 0,
+      "moderate": 0,
+      "minor": 0,
+      "incomplete": 1,
+      "testResult": "pass",
+      "blockingRuleIds": [],
+      "advisoryRuleIds": []
+    },
+    {
+      "application": "securiself-platform",
+      "routeOrState": "platform-landing",
+      "axeTags": [
+        "wcag2a",
+        "wcag2aa",
+        "wcag21a",
+        "wcag21aa"
+      ],
+      "critical": 0,
+      "serious": 0,
+      "moderate": 0,
+      "minor": 0,
+      "incomplete": 0,
+      "testResult": "pass",
+      "blockingRuleIds": [],
+      "advisoryRuleIds": []
+    },
+    {
+      "application": "securiself-platform",
+      "routeOrState": "sign-in",
+      "axeTags": [
+        "wcag2a",
+        "wcag2aa",
+        "wcag21a",
+        "wcag21aa"
+      ],
+      "critical": 0,
+      "serious": 0,
+      "moderate": 0,
+      "minor": 0,
+      "incomplete": 0,
+      "testResult": "pass",
+      "blockingRuleIds": [],
+      "advisoryRuleIds": []
+    },
+    {
+      "application": "securiself-platform",
+      "routeOrState": "sign-up",
+      "axeTags": [
+        "wcag2a",
+        "wcag2aa",
+        "wcag21a",
+        "wcag21aa"
+      ],
+      "critical": 0,
+      "serious": 0,
+      "moderate": 0,
+      "minor": 0,
+      "incomplete": 0,
+      "testResult": "pass",
+      "blockingRuleIds": [],
+      "advisoryRuleIds": []
+    },
+    {
+      "application": "prymecab-simulator",
+      "routeOrState": "prymecab-landing",
+      "axeTags": [
+        "wcag2a",
+        "wcag2aa",
+        "wcag21a",
+        "wcag21aa"
+      ],
+      "critical": 0,
+      "serious": 0,
+      "moderate": 0,
+      "minor": 0,
+      "incomplete": 1,
+      "testResult": "pass",
+      "blockingRuleIds": [],
+      "advisoryRuleIds": []
+    },
+    {
+      "application": "securiself-platform",
+      "routeOrState": "/console",
+      "axeTags": [
+        "wcag2a",
+        "wcag2aa",
+        "wcag21a",
+        "wcag21aa"
+      ],
+      "critical": 0,
+      "serious": 0,
+      "moderate": 0,
+      "minor": 0,
+      "incomplete": 0,
+      "testResult": "pass",
+      "blockingRuleIds": [],
+      "advisoryRuleIds": []
+    },
+    {
+      "application": "securiself-platform",
+      "routeOrState": "/console/vault",
+      "axeTags": [
+        "wcag2a",
+        "wcag2aa",
+        "wcag21a",
+        "wcag21aa"
+      ],
+      "critical": 0,
+      "serious": 0,
+      "moderate": 0,
+      "minor": 0,
+      "incomplete": 0,
+      "testResult": "pass",
+      "blockingRuleIds": [],
+      "advisoryRuleIds": []
+    },
+    {
+      "application": "securiself-platform",
+      "routeOrState": "/console/contexts",
+      "axeTags": [
+        "wcag2a",
+        "wcag2aa",
+        "wcag21a",
+        "wcag21aa"
+      ],
+      "critical": 0,
+      "serious": 0,
+      "moderate": 0,
+      "minor": 0,
+      "incomplete": 0,
+      "testResult": "pass",
+      "blockingRuleIds": [],
+      "advisoryRuleIds": []
+    },
+    {
+      "application": "securiself-platform",
+      "routeOrState": "/console/contexts/new",
+      "axeTags": [
+        "wcag2a",
+        "wcag2aa",
+        "wcag21a",
+        "wcag21aa"
+      ],
+      "critical": 0,
+      "serious": 0,
+      "moderate": 0,
+      "minor": 0,
+      "incomplete": 0,
+      "testResult": "pass",
+      "blockingRuleIds": [],
+      "advisoryRuleIds": []
+    },
+    {
+      "application": "securiself-platform",
+      "routeOrState": "/console/clients",
+      "axeTags": [
+        "wcag2a",
+        "wcag2aa",
+        "wcag21a",
+        "wcag21aa"
+      ],
+      "critical": 0,
+      "serious": 0,
+      "moderate": 0,
+      "minor": 0,
+      "incomplete": 0,
+      "testResult": "pass",
+      "blockingRuleIds": [],
+      "advisoryRuleIds": []
+    },
+    {
+      "application": "securiself-platform",
+      "routeOrState": "/console/docs",
+      "axeTags": [
+        "wcag2a",
+        "wcag2aa",
+        "wcag21a",
+        "wcag21aa"
+      ],
+      "critical": 0,
+      "serious": 0,
+      "moderate": 0,
+      "minor": 0,
+      "incomplete": 1,
+      "testResult": "pass",
+      "blockingRuleIds": [],
+      "advisoryRuleIds": []
+    },
+    {
+      "application": "securiself-platform",
+      "routeOrState": "/console/docs/setup",
+      "axeTags": [
+        "wcag2a",
+        "wcag2aa",
+        "wcag21a",
+        "wcag21aa"
+      ],
+      "critical": 0,
+      "serious": 0,
+      "moderate": 0,
+      "minor": 0,
+      "incomplete": 1,
+      "testResult": "pass",
+      "blockingRuleIds": [],
+      "advisoryRuleIds": []
+    },
+    {
+      "application": "securiself-platform",
+      "routeOrState": "/console/docs/authorization",
+      "axeTags": [
+        "wcag2a",
+        "wcag2aa",
+        "wcag21a",
+        "wcag21aa"
+      ],
+      "critical": 0,
+      "serious": 0,
+      "moderate": 0,
+      "minor": 0,
+      "incomplete": 1,
+      "testResult": "pass",
+      "blockingRuleIds": [],
+      "advisoryRuleIds": []
+    },
+    {
+      "application": "securiself-platform",
+      "routeOrState": "/console/docs/token-exchange",
+      "axeTags": [
+        "wcag2a",
+        "wcag2aa",
+        "wcag21a",
+        "wcag21aa"
+      ],
+      "critical": 0,
+      "serious": 0,
+      "moderate": 0,
+      "minor": 0,
+      "incomplete": 1,
+      "testResult": "pass",
+      "blockingRuleIds": [],
+      "advisoryRuleIds": []
+    },
+    {
+      "application": "securiself-platform",
+      "routeOrState": "/console/docs/profile-api",
+      "axeTags": [
+        "wcag2a",
+        "wcag2aa",
+        "wcag21a",
+        "wcag21aa"
+      ],
+      "critical": 0,
+      "serious": 0,
+      "moderate": 0,
+      "minor": 0,
+      "incomplete": 1,
+      "testResult": "pass",
+      "blockingRuleIds": [],
+      "advisoryRuleIds": []
+    },
+    {
+      "application": "securiself-platform",
+      "routeOrState": "/console/docs/contexts",
+      "axeTags": [
+        "wcag2a",
+        "wcag2aa",
+        "wcag21a",
+        "wcag21aa"
+      ],
+      "critical": 0,
+      "serious": 0,
+      "moderate": 0,
+      "minor": 0,
+      "incomplete": 1,
+      "testResult": "pass",
+      "blockingRuleIds": [],
+      "advisoryRuleIds": []
+    },
+    {
+      "application": "securiself-platform",
+      "routeOrState": "/console/docs/grants",
+      "axeTags": [
+        "wcag2a",
+        "wcag2aa",
+        "wcag21a",
+        "wcag21aa"
+      ],
+      "critical": 0,
+      "serious": 0,
+      "moderate": 0,
+      "minor": 0,
+      "incomplete": 1,
+      "testResult": "pass",
+      "blockingRuleIds": [],
+      "advisoryRuleIds": []
+    },
+    {
+      "application": "securiself-platform",
+      "routeOrState": "/console/docs/errors",
+      "axeTags": [
+        "wcag2a",
+        "wcag2aa",
+        "wcag21a",
+        "wcag21aa"
+      ],
+      "critical": 0,
+      "serious": 0,
+      "moderate": 0,
+      "minor": 0,
+      "incomplete": 1,
+      "testResult": "pass",
+      "blockingRuleIds": [],
+      "advisoryRuleIds": []
+    },
+    {
+      "application": "securiself-platform",
+      "routeOrState": "/console/docs/reference-integration",
+      "axeTags": [
+        "wcag2a",
+        "wcag2aa",
+        "wcag21a",
+        "wcag21aa"
+      ],
+      "critical": 0,
+      "serious": 0,
+      "moderate": 0,
+      "minor": 0,
+      "incomplete": 1,
+      "testResult": "pass",
+      "blockingRuleIds": [],
+      "advisoryRuleIds": []
+    },
+    {
+      "application": "securiself-platform",
+      "routeOrState": "/console/grants",
+      "axeTags": [
+        "wcag2a",
+        "wcag2aa",
+        "wcag21a",
+        "wcag21aa"
+      ],
+      "critical": 0,
+      "serious": 0,
+      "moderate": 0,
+      "minor": 0,
+      "incomplete": 0,
+      "testResult": "pass",
+      "blockingRuleIds": [],
+      "advisoryRuleIds": []
+    },
+    {
+      "application": "securiself-platform",
+      "routeOrState": "/console/activity",
+      "axeTags": [
+        "wcag2a",
+        "wcag2aa",
+        "wcag21a",
+        "wcag21aa"
+      ],
+      "critical": 0,
+      "serious": 0,
+      "moderate": 0,
+      "minor": 0,
+      "incomplete": 0,
+      "testResult": "pass",
+      "blockingRuleIds": [],
+      "advisoryRuleIds": []
+    },
+    {
+      "application": "securiself-platform",
+      "routeOrState": "oauth-consent",
+      "axeTags": [
+        "wcag2a",
+        "wcag2aa",
+        "wcag21a",
+        "wcag21aa"
+      ],
+      "critical": 0,
+      "serious": 0,
+      "moderate": 0,
+      "minor": 0,
+      "incomplete": 0,
+      "testResult": "pass",
+      "blockingRuleIds": [],
+      "advisoryRuleIds": []
+    },
+    {
+      "application": "securiself-platform",
+      "routeOrState": "oauth-consent-context-selected",
+      "axeTags": [
+        "wcag2a",
+        "wcag2aa",
+        "wcag21a",
+        "wcag21aa"
+      ],
+      "critical": 0,
+      "serious": 2,
+      "moderate": 0,
+      "minor": 0,
+      "incomplete": 0,
+      "testResult": "fail",
+      "blockingRuleIds": [
+        "color-contrast",
+        "scrollable-region-focusable"
+      ],
+      "advisoryRuleIds": []
+    },
+    {
+      "application": "securiself-platform",
+      "routeOrState": "/console/grants-active",
+      "axeTags": [
+        "wcag2a",
+        "wcag2aa",
+        "wcag21a",
+        "wcag21aa"
+      ],
+      "critical": 0,
+      "serious": 0,
+      "moderate": 0,
+      "minor": 0,
+      "incomplete": 0,
+      "testResult": "pass",
+      "blockingRuleIds": [],
+      "advisoryRuleIds": []
+    },
+    {
+      "application": "securiself-platform",
+      "routeOrState": "/console/grants-skip-link-focused",
+      "axeTags": [
+        "wcag2a",
+        "wcag2aa",
+        "wcag21a",
+        "wcag21aa"
+      ],
+      "critical": 0,
+      "serious": 0,
+      "moderate": 0,
+      "minor": 0,
+      "incomplete": 0,
+      "testResult": "pass",
+      "blockingRuleIds": [],
+      "advisoryRuleIds": []
+    },
+    {
+      "application": "securiself-platform",
+      "routeOrState": "/console/grants-row-focused",
+      "axeTags": [
+        "wcag2a",
+        "wcag2aa",
+        "wcag21a",
+        "wcag21aa"
+      ],
+      "critical": 0,
+      "serious": 0,
+      "moderate": 0,
+      "minor": 0,
+      "incomplete": 0,
+      "testResult": "pass",
+      "blockingRuleIds": [],
+      "advisoryRuleIds": []
+    },
+    {
+      "application": "securiself-platform",
+      "routeOrState": "/console/grants-revoke-dialog",
+      "axeTags": [
+        "wcag2a",
+        "wcag2aa",
+        "wcag21a",
+        "wcag21aa"
+      ],
+      "critical": 0,
+      "serious": 0,
+      "moderate": 0,
+      "minor": 0,
+      "incomplete": 2,
+      "testResult": "pass",
+      "blockingRuleIds": [],
+      "advisoryRuleIds": []
+    }
+  ]
+}

@@ -1,0 +1,171 @@
+// SecuriSelf API backend - Prisma schema
+// Contextual identity & privacy platform.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum ContextCategory {
+  PROFESSIONAL
+  LEGAL
+  SOCIAL
+  PRIVATE
+}
+
+enum AuditAction {
+  ACCESS_GRANTED
+  PROFILE_READ
+  ACCESS_REVOKED
+  BLOCKED_ANOMALY
+  TOKEN_EXCHANGE_FAILED
+}
+
+model User {
+  id             String   @id @default(uuid())
+  email          String   @unique
+  passwordHash   String?
+  // Google account subject (`sub`). Set when the identity owner links or signs
+  // up with Google; never disclosed to third-party applications.
+  googleId       String?  @unique
+  legalFirstName String?
+  legalLastName  String?
+  displayName    String?
+  gender         String?
+  avatarUrl      String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  contexts           Context[]
+  applications       Application[]
+  authorizationCodes AuthorizationCode[]
+  accessTokens       AccessToken[]
+  grants             Grant[]
+  auditLogs          AuditLog[]
+}
+
+model Context {
+  id           String          @id @default(uuid())
+  userId       String
+  category     ContextCategory
+  internalName String
+  displayName  String?
+  username     String?
+  pronouns     String?
+  pronounsI18n Json?
+  avatarUrl    String?
+  jobTitle     String?
+  jobTitleI18n Json?
+  company      String?
+  shortBio     String?
+  shortBioI18n Json?
+  documentId   String?
+  isStrictRead Boolean         @default(true)
+  createdAt    DateTime        @default(now())
+  updatedAt    DateTime        @updatedAt
+
+  user               User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  authorizationCodes AuthorizationCode[]
+  accessTokens       AccessToken[]
+  grants             Grant[]
+  auditLogs          AuditLog[]
+
+  @@index([userId])
+}
+
+model Application {
+  id               String   @id @default(uuid())
+  userId           String
+  name             String
+  clientId         String   @unique
+  clientSecretHash String
+  redirectUri      String
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  user               User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  authorizationCodes AuthorizationCode[]
+  accessTokens       AccessToken[]
+  grants             Grant[]
+  auditLogs          AuditLog[]
+
+  @@index([userId])
+}
+
+model AuthorizationCode {
+  id            String    @id @default(uuid())
+  code          String    @unique
+  userId        String
+  applicationId String
+  contextId     String
+  redirectUri   String
+  expiresAt     DateTime
+  consumedAt    DateTime?
+  createdAt     DateTime  @default(now())
+
+  user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  application Application @relation(fields: [applicationId], references: [id], onDelete: Cascade)
+  context     Context     @relation(fields: [contextId], references: [id], onDelete: Cascade)
+
+  @@index([applicationId])
+  @@index([userId])
+}
+
+model AccessToken {
+  id            String    @id @default(uuid())
+  tokenHash     String    @unique
+  userId        String
+  contextId     String
+  applicationId String
+  expiresAt     DateTime
+  revokedAt     DateTime?
+  createdAt     DateTime  @default(now())
+
+  user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  context     Context     @relation(fields: [contextId], references: [id], onDelete: Cascade)
+  application Application @relation(fields: [applicationId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([applicationId])
+  @@index([contextId])
+}
+
+model Grant {
+  id            String    @id @default(uuid())
+  userId        String
+  applicationId String
+  contextId     String
+  scope         String    @default("identity_context")
+  expiresAt     DateTime?
+  revokedAt     DateTime?
+  createdAt     DateTime  @default(now())
+
+  user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  application Application @relation(fields: [applicationId], references: [id], onDelete: Cascade)
+  context     Context     @relation(fields: [contextId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, applicationId, contextId])
+  @@index([userId])
+}
+
+model AuditLog {
+  id            String      @id @default(uuid())
+  userId        String
+  applicationId String?
+  contextId     String?
+  action        AuditAction
+  ipAddress     String?
+  userAgent     String?
+  metadata      Json?
+  timestamp     DateTime    @default(now())
+
+  user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  application Application?  @relation(fields: [applicationId], references: [id], onDelete: SetNull)
+  context     Context?     @relation(fields: [contextId], references: [id], onDelete: SetNull)
+
+  @@index([userId])
+  @@index([timestamp])
+}

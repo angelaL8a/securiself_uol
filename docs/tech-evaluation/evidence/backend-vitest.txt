@@ -1,0 +1,69 @@
+ ✓ tests/security.test.ts > security - oauth token exchange > rejects an expired authorization code 3918ms
+ ✓ tests/security.test.ts > security - oauth token exchange > rejects a consumed authorization code 3216ms
+ ✓ tests/security.test.ts > security - oauth token exchange > rejects a wrong client secret 2394ms
+ ✓ tests/security.test.ts > security - oauth token exchange > rejects a wrong redirect uri 2371ms
+ ✓ tests/security.test.ts > security - access token > rejects a missing bearer token 156ms
+ ✓ tests/security.test.ts > security - access token > rejects a manipulated bearer token 2785ms
+ ✓ tests/security.test.ts > security - access token > rejects a revoked token after the grant is revoked 5682ms
+ ✓ tests/security.test.ts > security - access token > lists grants with application and context display fields and no secrets 2890ms
+ ✓ tests/security.test.ts > security - access token > reactivates a revoked grant on re-authorisation by clearing revokedAt 6460ms
+ ✓ tests/security.test.ts > security - access token > binds a token to a single context and cannot read another 5680ms
+ ✓ tests/localization.test.ts > context shortBio i18n persistence > stores language variants and keeps English scalars as the default 1767ms
+ ✓ tests/localization.test.ts > context shortBio i18n persistence > still accepts a plain shortBio without translations 794ms
+ ✓ tests/localization.test.ts > context shortBio i18n persistence > updates Spanish independently and syncs English from shortBioI18n.en 1195ms
+ ✓ tests/localization.test.ts > GET /profiles/me Accept-Language > returns Spanish localisable fields when they exist 3781ms
+ ✓ tests/localization.test.ts > GET /profiles/me Accept-Language > returns English for en, omitted, unsupported, and regional Spanish tags 3676ms
+ ✓ tests/localization.test.ts > GET /profiles/me Accept-Language > falls back per field when only some Spanish variants exist 2960ms
+ ✓ tests/localization.test.ts > GET /profiles/me Accept-Language > falls back to Spanish when that is the only available variant 2865ms
+ ✓ tests/localization.test.ts > GET /profiles/me Accept-Language > returns Spanish pronouns for SOCIAL without disclosing short_bio 3238ms
+ ✓ tests/localization.test.ts > GET /profiles/me Accept-Language > returns Spanish pronouns for PRIVATE without disclosing short_bio 3196ms
+ ✓ tests/privacy.test.ts > privacy filtering > SOCIAL payload omits all forbidden fields 4776ms
+ ✓ tests/privacy.test.ts > privacy filtering > PROFESSIONAL payload omits documentId, email and gender 2825ms
+ ✓ tests/privacy.test.ts > privacy filtering > LEGAL payload includes legal identity and document id 2952ms
+ ✓ tests/privacy.test.ts > privacy filtering > PRIVATE payload exposes only the minimal identity slice 3010ms
+ ✓ tests/privacy.test.ts > privacy filtering > keeps legal identifiers out of non-LEGAL contexts and never leaks root email 8305ms
+ ✓ tests/lifecycle.test.ts > context lifecycle > persists a valid update and enforces category validation 2399ms
+ ✓ tests/lifecycle.test.ts > context lifecycle > deletes an owned context so it is no longer readable 1366ms
+ ✓ tests/lifecycle.test.ts > consent denial > issues no authorization code and no ACCESS_GRANTED event 1811ms
+ ✓ tests/lifecycle.test.ts > client-secret rotation > returns a new secret once and invalidates the old secret 4116ms
+ ✓ tests/lifecycle.test.ts > PRIVATE profile filtering > exposes only display_name, pronouns, and avatar_url 3631ms
+ ✓ tests/audit.test.ts > audit logging > records ACCESS_GRANTED, PROFILE_READ and ACCESS_REVOKED 7354ms
+ ✓ tests/audit.test.ts > audit logging > returns audit logs newest first 3126ms
+ ✓ tests/audit.test.ts > audit logging > associates PROFILE_READ with the expected user, application, and context 3176ms
+ ✓ tests/google-auth.test.ts > POST /api/v1/auth/google > creates a SecuriSelf account for a new Google user 1528ms
+ ✓ tests/google-auth.test.ts > POST /api/v1/auth/google > never returns the Google subject to the client 500ms
+ ✓ tests/google-auth.test.ts > POST /api/v1/auth/google > returns the SAME account for a returning Google user 742ms
+ ✓ tests/google-auth.test.ts > POST /api/v1/auth/google > links an existing email/password account instead of duplicating it 1946ms
+ ✓ tests/google-auth.test.ts > POST /api/v1/auth/google > preserves the existing Vault when linking Google to an account 1383ms
+ ✓ tests/google-auth.test.ts > POST /api/v1/auth/google > rejects an invalid Google credential 262ms
+ ✓ tests/google-auth.test.ts > POST /api/v1/auth/google > rejects a request without a credential 190ms
+ ✓ tests/google-auth.test.ts > POST /api/v1/auth/google > issues a session token accepted by the existing session middleware 898ms
+ ✓ tests/google-auth.test.ts > Google accounts keep the contextual disclosure model > discloses only context fields through the full consent flow 6534ms
+ ✓ tests/functional.test.ts > functional flows > registers a user and returns a session token without the password hash 1388ms
+ ✓ tests/functional.test.ts > functional flows > logs a user in with valid credentials 748ms
+ ✓ tests/functional.test.ts > functional flows > returns the current user from /auth/me 647ms
+ ✓ tests/functional.test.ts > functional flows > updates vault data for the authenticated user 782ms
+ ✓ tests/functional.test.ts > functional flows > creates PROFESSIONAL, LEGAL and SOCIAL contexts 1578ms
+ ✓ tests/functional.test.ts > functional flows > authorizes a client and exchanges the code for an access token 2612ms
+ ✓ tests/functional.test.ts > functional flows > reads the filtered profile via /profiles/me 3684ms
+ ✓ tests/functional.test.ts > functional flows > exposes a health endpoint 163ms
+ ✓ tests/grants-idempotent.test.ts > grant revoke idempotency > revokes once, then returns the same revoked Grant without a second ACCESS_REVOKED 10708ms
+ ✓ tests/ownership.test.ts > cross-user ownership > rejects reading, updating, or deleting another user's context 3130ms
+ ✓ tests/ownership.test.ts > cross-user ownership > rejects inspecting or rotating another user's client 2021ms
+ ✓ tests/ownership.test.ts > cross-user ownership > rejects revoking another user's grant 5397ms
+ ✓ tests/locale.test.ts > parseAcceptLanguage > returns null when the header is missing or empty 964ms
+ ✓ tests/locale.test.ts > parseAcceptLanguage > returns null for wildcard or unsupported languages 151ms
+ ✓ tests/locale.test.ts > parseAcceptLanguage > selects a supported primary tag 152ms
+ ✓ tests/locale.test.ts > parseAcceptLanguage > collapses region tags to the primary subtag 152ms
+ ✓ tests/locale.test.ts > parseAcceptLanguage > walks quality values and picks the first supported tag 150ms
+ ✓ tests/locale.test.ts > parseAcceptLanguage > joins array headers the same way Express may provide them 201ms
+ ✓ tests/locale.test.ts > resolveLocalizedText > returns the requested variant when it has text 193ms
+ ✓ tests/locale.test.ts > resolveLocalizedText > falls back to default English when the requested variant is missing 190ms
+ ✓ tests/locale.test.ts > resolveLocalizedText > falls back to default when the header is missing or unsupported 250ms
+ ✓ tests/locale.test.ts > resolveLocalizedText > uses the only available variant when English is empty 197ms
+ ✓ tests/locale.test.ts > resolveLocalizedText > treats whitespace-only values as missing 155ms
+ ✓ tests/locale.test.ts > resolveLocalizedText > returns null when nothing is available 149ms
+ ✓ tests/google-id-token.test.ts > verifyGoogleIdToken > reports 503 when no Google client ID is configured 954ms
+ ✓ tests/google-id-token.test.ts > verifyGoogleIdToken > rejects a credential that is not a Google-signed ID token 407ms
+ Test Files  11 passed (11)
+      Tests  67 passed (67)

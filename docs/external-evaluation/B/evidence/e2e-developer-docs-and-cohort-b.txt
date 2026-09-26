@@ -1,0 +1,119 @@
+◇ injected env (17) from .env.e2e // tip: ⌘ multiple files { path: ['.env.local', '.env'] }
+◇ injected env (3) from apps/api-backend/.env // tip: ⌘ enable debugging { debug: true }
+◇ injected env (17) from .env.e2e // tip: ⌁ auth for agents [www.vestauth.com]
+◇ injected env (0) from apps/api-backend/.env // tip: ⌘ custom filepath { path: '/custom/path/.env' }
+◇ injected env (17) from ../../.env.e2e // tip: ⌘ custom filepath { path: '/custom/path/.env' }
+◇ injected env (0) from .env // tip: ⌘ override existing { override: true }
+[e2e] Clearing isolated E2E database…
+(node:77078) Warning: SECURITY WARNING: The SSL modes 'prefer', 'require', and 'verify-ca' are treated as aliases for 'verify-full'.
+In the next major version (pg-connection-string v3.0.0 and pg v9.0.0), these modes will adopt standard libpq semantics, which have weaker security guarantees.
+
+To prepare for this change:
+- If you want the current behavior, explicitly use 'sslmode=verify-full'
+- If you want libpq compatibility now, use 'uselibpqcompat=true&sslmode=require'
+
+See https://www.postgresql.org/docs/current/libpq-ssl.html for libpq SSL mode definitions.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[e2e] Seeding deterministic identity owner and PrymeCab client…
+[e2e] Preparation complete.
+
+Running 5 tests using 1 worker
+
+◇ injected env (17) from .env.e2e // tip: ⌘ suppress logs { quiet: true }
+◇ injected env (0) from apps/api-backend/.env // tip: ⌘ enable debugging { debug: true }
+◇ injected env (17) from .env.e2e // tip: ⌘ enable debugging { debug: true }
+◇ injected env (0) from apps/api-backend/.env // tip: ⌁ auth for agents [www.vestauth.com]
+◇ injected env (17) from ../../.env.e2e // tip: ◈ secrets for agents [www.dotenvx.com]
+◇ injected env (0) from .env // tip: ⌘ override existing { override: true }
+[e2e] Clearing isolated E2E database…
+(node:77123) Warning: SECURITY WARNING: The SSL modes 'prefer', 'require', and 'verify-ca' are treated as aliases for 'verify-full'.
+In the next major version (pg-connection-string v3.0.0 and pg v9.0.0), these modes will adopt standard libpq semantics, which have weaker security guarantees.
+
+To prepare for this change:
+- If you want the current behavior, explicitly use 'sslmode=verify-full'
+- If you want libpq compatibility now, use 'uselibpqcompat=true&sslmode=require'
+
+See https://www.postgresql.org/docs/current/libpq-ssl.html for libpq SSL mode definitions.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[e2e] Seeding deterministic identity owner and PrymeCab client…
+[e2e] Preparation complete.
+[WebServer] (node:77007) Warning: SECURITY WARNING: The SSL modes 'prefer', 'require', and 'verify-ca' are treated as aliases for 'verify-full'.
+[WebServer] In the next major version (pg-connection-string v3.0.0 and pg v9.0.0), these modes will adopt standard libpq semantics, which have weaker security guarantees.
+[WebServer] 
+[WebServer] To prepare for this change:
+[WebServer] - If you want the current behavior, explicitly use 'sslmode=verify-full'
+[WebServer] - If you want libpq compatibility now, use 'uselibpqcompat=true&sslmode=require'
+[WebServer] 
+[WebServer] See https://www.postgresql.org/docs/current/libpq-ssl.html for libpq SSL mode definitions.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [chromium] › tests/e2e/specs/cohort-b-refinements.spec.ts:84:7 › cohort B developer docs refinements › B1: the callback leads to a server-side exchange, then to the Profile API (5.1s)
+◇ injected env (17) from .env.e2e // tip: ◈ secrets for agents [www.dotenvx.com]
+◇ injected env (0) from apps/api-backend/.env // tip: ⌘ multiple files { path: ['.env.local', '.env'] }
+◇ injected env (17) from ../../.env.e2e // tip: ⌁ auth for agents [www.vestauth.com]
+◇ injected env (0) from .env // tip: ◈ encrypted .env [www.dotenvx.com]
+[e2e] Clearing isolated E2E database…
+(node:77223) Warning: SECURITY WARNING: The SSL modes 'prefer', 'require', and 'verify-ca' are treated as aliases for 'verify-full'.
+In the next major version (pg-connection-string v3.0.0 and pg v9.0.0), these modes will adopt standard libpq semantics, which have weaker security guarantees.
+
+To prepare for this change:
+- If you want the current behavior, explicitly use 'sslmode=verify-full'
+- If you want libpq compatibility now, use 'uselibpqcompat=true&sslmode=require'
+
+See https://www.postgresql.org/docs/current/libpq-ssl.html for libpq SSL mode definitions.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[e2e] Seeding deterministic identity owner and PrymeCab client…
+[e2e] Preparation complete.
+  ✓  2 [chromium] › tests/e2e/specs/cohort-b-refinements.spec.ts:140:7 › cohort B developer docs refinements › B2: a rejected profile read leads to the recovery path and back to authorization (4.3s)
+◇ injected env (17) from .env.e2e // tip: ◈ encrypted .env [www.dotenvx.com]
+◇ injected env (0) from apps/api-backend/.env // tip: ⌘ override existing { override: true }
+◇ injected env (17) from ../../.env.e2e // tip: ⌘ custom filepath { path: '/custom/path/.env' }
+◇ injected env (0) from .env // tip: ⌁ auth for agents [www.vestauth.com]
+[e2e] Clearing isolated E2E database…
+(node:77297) Warning: SECURITY WARNING: The SSL modes 'prefer', 'require', and 'verify-ca' are treated as aliases for 'verify-full'.
+In the next major version (pg-connection-string v3.0.0 and pg v9.0.0), these modes will adopt standard libpq semantics, which have weaker security guarantees.
+
+To prepare for this change:
+- If you want the current behavior, explicitly use 'sslmode=verify-full'
+- If you want libpq compatibility now, use 'uselibpqcompat=true&sslmode=require'
+
+See https://www.postgresql.org/docs/current/libpq-ssl.html for libpq SSL mode definitions.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[e2e] Seeding deterministic identity owner and PrymeCab client…
+[e2e] Preparation complete.
+  ✓  3 [chromium] › tests/e2e/specs/developer-docs.spec.ts:171:7 › developer docs @sprint5 › an authenticated owner reaches Developer Docs through the Console auth boundary (3.3s)
+◇ injected env (17) from .env.e2e // tip: ◈ encrypted .env [www.dotenvx.com]
+◇ injected env (0) from apps/api-backend/.env // tip: ⌘ suppress logs { quiet: true }
+◇ injected env (17) from ../../.env.e2e // tip: ⌘ suppress logs { quiet: true }
+◇ injected env (0) from .env // tip: ◈ encrypted .env [www.dotenvx.com]
+[e2e] Clearing isolated E2E database…
+(node:77358) Warning: SECURITY WARNING: The SSL modes 'prefer', 'require', and 'verify-ca' are treated as aliases for 'verify-full'.
+In the next major version (pg-connection-string v3.0.0 and pg v9.0.0), these modes will adopt standard libpq semantics, which have weaker security guarantees.
+
+To prepare for this change:
+- If you want the current behavior, explicitly use 'sslmode=verify-full'
+- If you want libpq compatibility now, use 'uselibpqcompat=true&sslmode=require'
+
+See https://www.postgresql.org/docs/current/libpq-ssl.html for libpq SSL mode definitions.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[e2e] Seeding deterministic identity owner and PrymeCab client…
+[e2e] Preparation complete.
+  ✓  4 [chromium] › tests/e2e/specs/developer-docs.spec.ts:205:7 › developer docs @sprint5 › the console sidebar navigates from the Overview page to Developer Docs (3.5s)
+◇ injected env (17) from .env.e2e // tip: ◈ encrypted .env [www.dotenvx.com]
+◇ injected env (0) from apps/api-backend/.env // tip: ◈ encrypted .env [www.dotenvx.com]
+◇ injected env (17) from ../../.env.e2e // tip: ⌘ multiple files { path: ['.env.local', '.env'] }
+◇ injected env (0) from .env // tip: ⌘ override existing { override: true }
+[e2e] Clearing isolated E2E database…
+(node:77432) Warning: SECURITY WARNING: The SSL modes 'prefer', 'require', and 'verify-ca' are treated as aliases for 'verify-full'.
+In the next major version (pg-connection-string v3.0.0 and pg v9.0.0), these modes will adopt standard libpq semantics, which have weaker security guarantees.
+
+To prepare for this change:
+- If you want the current behavior, explicitly use 'sslmode=verify-full'
+- If you want libpq compatibility now, use 'uselibpqcompat=true&sslmode=require'
+
+See https://www.postgresql.org/docs/current/libpq-ssl.html for libpq SSL mode definitions.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[e2e] Seeding deterministic identity owner and PrymeCab client…
+[e2e] Preparation complete.
+  ✓  5 [chromium] › tests/e2e/specs/developer-docs.spec.ts:231:7 › developer docs @sprint5 › the refined Developer Docs expose nine focused areas behind sticky navigation @post-refinement (5.9s)
+
+  5 passed (28.4s)

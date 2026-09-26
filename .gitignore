@@ -1,0 +1,54 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# Dependencies
+node_modules
+.pnp
+.pnp.js
+
+# Local env files (any depth). Real values must never be committed;
+# `.env.example` / `.env.*.example` templates stay trackable.
+.env
+.env.*
+!.env.example
+!.env.*.example
+
+# Dot-less env file variants (e.g. `env`, `env.local`, `env.e2e`).
+# Listed explicitly so source files such as `src/config/env.ts` are not ignored.
+env
+env.local
+env.e2e
+env.development
+env.production
+env.test
+env.*.local
+
+# Testing
+coverage
+playwright-report/
+test-results/
+blob-report/
+*.webm
+*.zip
+
+# Turbo
+.turbo
+
+# Vercel
+.vercel
+
+# Build Outputs
+.next/
+out/
+build
+dist
+
+
+# Debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Misc
+.DS_Store
+*.pem
+.stark/

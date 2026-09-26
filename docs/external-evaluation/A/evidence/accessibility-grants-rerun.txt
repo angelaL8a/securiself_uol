@@ -1,0 +1,198 @@
+
+> securiself@ test:e2e:prepare /Users/Gabriel/Documents/Angela/securiself/securiself
+> pnpm exec tsx tests/e2e/setup/run-prepare-cli.ts
+
+◇ injected env (17) from .env.e2e // tip: ⌘ enable debugging { debug: true }
+◇ injected env (3) from apps/api-backend/.env // tip: ⌘ suppress logs { quiet: true }
+◇ injected env (17) from ../../.env.e2e // tip: ⌘ custom filepath { path: '/custom/path/.env' }
+◇ injected env (0) from .env // tip: ⌁ auth for agents [www.vestauth.com]
+[e2e] Syncing Prisma schema to isolated E2E database…
+Loaded Prisma config from prisma.config.ts.
+
+Prisma schema loaded from prisma/schema.prisma.
+Datasource "db": PostgreSQL database "neondb", schema "public" at "ep-broad-sunset-acph69nx-pooler.sa-east-1.aws.neon.tech"
+
+The database is already in sync with the Prisma schema.
+
+[e2e] Clearing isolated E2E database…
+(node:13867) Warning: SECURITY WARNING: The SSL modes 'prefer', 'require', and 'verify-ca' are treated as aliases for 'verify-full'.
+In the next major version (pg-connection-string v3.0.0 and pg v9.0.0), these modes will adopt standard libpq semantics, which have weaker security guarantees.
+
+To prepare for this change:
+- If you want the current behavior, explicitly use 'sslmode=verify-full'
+- If you want libpq compatibility now, use 'uselibpqcompat=true&sslmode=require'
+
+See https://www.postgresql.org/docs/current/libpq-ssl.html for libpq SSL mode definitions.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[e2e] Seeding deterministic identity owner and PrymeCab client…
+[e2e] Preparation complete.
+◇ injected env (17) from .env.e2e // tip: ⌘ multiple files { path: ['.env.local', '.env'] }
+◇ injected env (0) from apps/api-backend/.env // tip: ⌘ suppress logs { quiet: true }
+[e2e] Building securiself-platform for production…
+
+> securiself-platform@0.1.0 build /Users/Gabriel/Documents/Angela/securiself/securiself/apps/securiself-platform
+> next build
+
+▲ Next.js 16.2.9 (Turbopack)
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 2.8s
+  Running TypeScript ...
+  Finished TypeScript in 3.5s ...
+  Collecting page data using 7 workers ...
+  Generating static pages using 7 workers (0/25) ...
+  Generating static pages using 7 workers (6/25) 
+  Generating static pages using 7 workers (12/25) 
+  Generating static pages using 7 workers (18/25) 
+✓ Generating static pages using 7 workers (25/25) in 416ms
+  Finalizing page optimization ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ○ /console
+├ ○ /console/activity
+├ ○ /console/clients
+├ ƒ /console/clients/[clientId]
+├ ƒ /console/clients/[clientId]/credentials
+├ ○ /console/clients/new
+├ ○ /console/contexts
+├ ƒ /console/contexts/[contextId]
+├ ○ /console/contexts/new
+├ ● /console/docs/[[...area]]
+│ ├ /console/docs
+│ ├ /console/docs/setup
+│ ├ /console/docs/authorization
+│ └ [+6 more paths]
+├ ○ /console/grants
+├ ○ /console/settings
+├ ○ /console/vault
+├ ○ /oauth/authorize
+├ ○ /sign-in
+└ ○ /sign-up
+
+
+○  (Static)   prerendered as static content
+●  (SSG)      prerendered as static HTML (uses generateStaticParams)
+ƒ  (Dynamic)  server-rendered on demand
+
+[e2e] Building prymecab-simulator for production…
+
+> prymecab-simulator@0.1.0 build /Users/Gabriel/Documents/Angela/securiself/securiself/apps/prymecab-simulator
+> next build
+
+▲ Next.js 16.2.9 (Turbopack)
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 1555ms
+  Running TypeScript ...
+  Finished TypeScript in 1251ms ...
+  Collecting page data using 7 workers ...
+  Generating static pages using 7 workers (0/7) ...
+  Generating static pages using 7 workers (1/7) 
+  Generating static pages using 7 workers (3/7) 
+  Generating static pages using 7 workers (5/7) 
+✓ Generating static pages using 7 workers (7/7) in 76ms
+  Finalizing page optimization ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ƒ /api/auth/callback
+├ ƒ /api/auth/logout
+└ ƒ /api/user
+
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+
+◇ injected env (17) from .env.e2e // tip: ◈ secrets for agents [www.dotenvx.com]
+◇ injected env (3) from apps/api-backend/.env // tip: ⌘ multiple files { path: ['.env.local', '.env'] }
+◇ injected env (17) from .env.e2e // tip: ⌘ suppress logs { quiet: true }
+◇ injected env (0) from apps/api-backend/.env // tip: ⌘ override existing { override: true }
+◇ injected env (17) from ../../.env.e2e // tip: ◈ encrypted .env [www.dotenvx.com]
+◇ injected env (0) from .env // tip: ⌁ auth for agents [www.vestauth.com]
+[e2e] Clearing isolated E2E database…
+(node:14404) Warning: SECURITY WARNING: The SSL modes 'prefer', 'require', and 'verify-ca' are treated as aliases for 'verify-full'.
+In the next major version (pg-connection-string v3.0.0 and pg v9.0.0), these modes will adopt standard libpq semantics, which have weaker security guarantees.
+
+To prepare for this change:
+- If you want the current behavior, explicitly use 'sslmode=verify-full'
+- If you want libpq compatibility now, use 'uselibpqcompat=true&sslmode=require'
+
+See https://www.postgresql.org/docs/current/libpq-ssl.html for libpq SSL mode definitions.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[e2e] Seeding deterministic identity owner and PrymeCab client…
+[e2e] Preparation complete.
+
+Running 3 tests using 1 worker
+
+◇ injected env (17) from .env.e2e // tip: ⌘ suppress logs { quiet: true }
+◇ injected env (0) from apps/api-backend/.env // tip: ◈ secrets for agents [www.dotenvx.com]
+◇ injected env (17) from .env.e2e // tip: ⌘ suppress logs { quiet: true }
+◇ injected env (0) from apps/api-backend/.env // tip: ⌁ auth for agents [www.vestauth.com]
+◇ injected env (17) from ../../.env.e2e // tip: ◈ secrets for agents [www.dotenvx.com]
+◇ injected env (0) from .env // tip: ⌘ custom filepath { path: '/custom/path/.env' }
+[e2e] Clearing isolated E2E database…
+(node:14463) Warning: SECURITY WARNING: The SSL modes 'prefer', 'require', and 'verify-ca' are treated as aliases for 'verify-full'.
+In the next major version (pg-connection-string v3.0.0 and pg v9.0.0), these modes will adopt standard libpq semantics, which have weaker security guarantees.
+
+To prepare for this change:
+- If you want the current behavior, explicitly use 'sslmode=verify-full'
+- If you want libpq compatibility now, use 'uselibpqcompat=true&sslmode=require'
+
+See https://www.postgresql.org/docs/current/libpq-ssl.html for libpq SSL mode definitions.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[e2e] Seeding deterministic identity owner and PrymeCab client…
+[e2e] Preparation complete.
+[WebServer] (node:14343) Warning: SECURITY WARNING: The SSL modes 'prefer', 'require', and 'verify-ca' are treated as aliases for 'verify-full'.
+[WebServer] In the next major version (pg-connection-string v3.0.0 and pg v9.0.0), these modes will adopt standard libpq semantics, which have weaker security guarantees.
+[WebServer] 
+[WebServer] To prepare for this change:
+[WebServer] - If you want the current behavior, explicitly use 'sslmode=verify-full'
+[WebServer] - If you want libpq compatibility now, use 'uselibpqcompat=true&sslmode=require'
+[WebServer] 
+[WebServer] See https://www.postgresql.org/docs/current/libpq-ssl.html for libpq SSL mode definitions.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [chromium] › tests/e2e/specs/accessibility.spec.ts:115:7 › accessibility @a11y › Grants page and revoke dialog pass the a11y gate (9.1s)
+◇ injected env (17) from .env.e2e // tip: ⌘ override existing { override: true }
+◇ injected env (0) from apps/api-backend/.env // tip: ⌘ enable debugging { debug: true }
+◇ injected env (17) from .env.e2e // tip: ◈ secrets for agents [www.dotenvx.com]
+◇ injected env (0) from apps/api-backend/.env // tip: ⌘ suppress logs { quiet: true }
+◇ injected env (17) from ../../.env.e2e // tip: ⌘ suppress logs { quiet: true }
+◇ injected env (0) from .env // tip: ◈ secrets for agents [www.dotenvx.com]
+[e2e] Clearing isolated E2E database…
+(node:14642) Warning: SECURITY WARNING: The SSL modes 'prefer', 'require', and 'verify-ca' are treated as aliases for 'verify-full'.
+In the next major version (pg-connection-string v3.0.0 and pg v9.0.0), these modes will adopt standard libpq semantics, which have weaker security guarantees.
+
+To prepare for this change:
+- If you want the current behavior, explicitly use 'sslmode=verify-full'
+- If you want libpq compatibility now, use 'uselibpqcompat=true&sslmode=require'
+
+See https://www.postgresql.org/docs/current/libpq-ssl.html for libpq SSL mode definitions.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[e2e] Seeding deterministic identity owner and PrymeCab client…
+[e2e] Preparation complete.
+  ✓  2 [chromium] › tests/e2e/specs/accessibility.spec.ts:115:7 › accessibility @a11y › Grants page and revoke dialog pass the a11y gate (7.4s)
+◇ injected env (17) from .env.e2e // tip: ⌘ multiple files { path: ['.env.local', '.env'] }
+◇ injected env (0) from apps/api-backend/.env // tip: ⌘ multiple files { path: ['.env.local', '.env'] }
+◇ injected env (17) from .env.e2e // tip: ⌘ multiple files { path: ['.env.local', '.env'] }
+◇ injected env (0) from apps/api-backend/.env // tip: ◈ secrets for agents [www.dotenvx.com]
+◇ injected env (17) from ../../.env.e2e // tip: ⌘ enable debugging { debug: true }
+◇ injected env (0) from .env // tip: ◈ encrypted .env [www.dotenvx.com]
+[e2e] Clearing isolated E2E database…
+(node:14778) Warning: SECURITY WARNING: The SSL modes 'prefer', 'require', and 'verify-ca' are treated as aliases for 'verify-full'.
+In the next major version (pg-connection-string v3.0.0 and pg v9.0.0), these modes will adopt standard libpq semantics, which have weaker security guarantees.
+
+To prepare for this change:
+- If you want the current behavior, explicitly use 'sslmode=verify-full'
+- If you want libpq compatibility now, use 'uselibpqcompat=true&sslmode=require'
+
+See https://www.postgresql.org/docs/current/libpq-ssl.html for libpq SSL mode definitions.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[e2e] Seeding deterministic identity owner and PrymeCab client…
+[e2e] Preparation complete.
+  ✓  3 [chromium] › tests/e2e/specs/accessibility.spec.ts:115:7 › accessibility @a11y › Grants page and revoke dialog pass the a11y gate (7.3s)
+
+  3 passed (31.0s)
+exit 0

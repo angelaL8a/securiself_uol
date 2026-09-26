@@ -1,0 +1,35 @@
+{
+  "state": "consent screen, Social Context selected, Approve button opacity 1 + 500 ms",
+  "preOverflow": {
+    "scrollWidth": 484,
+    "clientWidth": 460
+  },
+  "steadyWithRegion": [
+    {
+      "id": "scrollable-region-focusable",
+      "impact": "serious",
+      "nodes": [
+        {
+          "target": [
+            "pre"
+          ],
+          "data": null
+        }
+      ]
+    }
+  ],
+  "steadyWithoutRegion": [
+    {
+      "id": "scrollable-region-focusable",
+      "impact": "serious",
+      "nodes": [
+        {
+          "target": [
+            "pre"
+          ],
+          "data": null
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+
+ RUN  v4.1.9 /Users/Gabriel/Documents/Angela/securiself/securiself/apps/securiself-platform
+
+ ✓ src/features/developer-docs/components/developer-docs.test.tsx > Developer Docs > links the console sidebar to the docs route 1ms
+ ✓ src/features/developer-docs/components/developer-docs.test.tsx > Developer Docs > resolves content for every documentation area 1ms
+ ✓ src/features/developer-docs/components/developer-docs.test.tsx > Developer Docs > renders only its own sections in each area, each with a matching anchor 179ms
+ ✓ src/features/developer-docs/components/developer-docs.test.tsx > Developer Docs > points the sticky section navigation at sections present in the same area 86ms
+ ✓ src/features/developer-docs/components/developer-docs.test.tsx > Developer Docs > marks the current area in the sticky area navigation 14ms
+ ✓ src/features/developer-docs/components/developer-docs.test.tsx > Developer Docs > distinguishes every credential and authorization artifact 18ms
+ ✓ src/features/developer-docs/components/developer-docs.test.tsx > Developer Docs > states the authorization-code to access-token sequence in order 9ms
+ ✓ src/features/developer-docs/components/developer-docs.test.tsx > Developer Docs > covers every critical integration stage across the areas 49ms
+ ✓ src/features/developer-docs/components/developer-docs.test.tsx > Developer Docs > represents all four context categories in the payload and locale references 23ms
+ ✓ src/features/developer-docs/components/developer-docs.test.tsx > Developer Docs > uses placeholders instead of real credentials 45ms
+ ✓ src/features/developer-docs/components/developer-docs.test.tsx > Developer Docs > gives each copy button a distinct accessible name within an area 78ms
+ ✓ src/features/developer-docs/components/developer-docs.test.tsx > Developer Docs — B1 authorization code to access token > sends the Authorization callback onward to Token Exchange 8ms
+ ✓ src/features/developer-docs/components/developer-docs.test.tsx > Developer Docs — B1 authorization code to access token > opens Token Exchange with the code-to-token transition, grouped by channel 17ms
+ ✓ src/features/developer-docs/components/developer-docs.test.tsx > Developer Docs — B1 authorization code to access token > keeps the client_secret and the access token on the server side 0ms
+ ✓ src/features/developer-docs/components/developer-docs.test.tsx > Developer Docs — B1 authorization code to access token > authenticates Profile API requests with the access token, not the code 8ms
+ ✓ src/features/developer-docs/components/developer-docs.test.tsx > Developer Docs — B1 authorization code to access token > keeps the full nine-step sequence on the Overview only 5ms
+ ✓ src/features/developer-docs/components/developer-docs.test.tsx > Developer Docs — B2 revocation recovery path > explains revoked access on Errors and links to its cause and its restart 13ms
+ ✓ src/features/developer-docs/components/developer-docs.test.tsx > Developer Docs — B2 revocation recovery path > states on Grants & Revocation that a new user authorization is required 9ms
+ ✓ src/features/developer-docs/components/developer-docs.test.tsx > Developer Docs — B2 revocation recovery path > points a rejected profile read at the recovery sequence 8ms
+ ✓ src/features/developer-docs/components/developer-docs.test.tsx > Developer Docs — B2 revocation recovery path > only restores access through values issued by a new approval 0ms
+ ✓ src/features/developer-docs/components/developer-docs.test.tsx > Developer Docs — B2 revocation recovery path > never presents refreshing, retrying or reusing old access as recovery 7ms
+ ✓ src/features/developer-docs/components/developer-docs.test.tsx > Developer Docs — B2 revocation recovery path > quotes the rejection messages the API backend actually returns 0ms
+
+ Test Files  1 passed (1)
+      Tests  22 passed (22)
+   Start at  19:56:08
+   Duration  1.38s (transform 136ms, setup 35ms, import 365ms, tests 580ms, environment 311ms)
+
