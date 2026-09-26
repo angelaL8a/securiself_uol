@@ -140,7 +140,7 @@ describe("GrantsList", () => {
     );
   });
 
-  it("reaches Revoke and confirms the revocation with the keyboard alone (A1)", async () => {
+  it("reaches Revoke and confirms the revocation with the keyboard alone", async () => {
     const user = userEvent.setup();
     mutate.mockClear();
     mutate.mockImplementation((_id, options) => {
@@ -170,7 +170,7 @@ describe("GrantsList", () => {
     expect(mutate).toHaveBeenCalledWith("grant-1", expect.any(Object));
   });
 
-  it("closes the confirmation with Escape without revoking (A1)", async () => {
+  it("closes the confirmation with Escape without revoking", async () => {
     const user = userEvent.setup();
     mutate.mockClear();
     renderList([makeGrant()]);

@@ -5,7 +5,7 @@ import { runPrepareE2E } from "../setup/run-prepare";
  * Reseeds the isolated E2E database before every test so audit/grant
  * assertions stay deterministic across the suite.
  */
-export const test = base.extend({
+export const test = base.extend<{ reseedDatabase: void }>({
   // eslint-disable-next-line no-empty-pattern
   reseedDatabase: [
     async ({}, use) => {

@@ -1,6 +1,4 @@
-import { mkdirSync } from "node:fs";
-import path from "node:path";
-import type { Locator, Page } from "@playwright/test";
+import type { Page } from "@playwright/test";
 import { expect, test } from "../fixtures/test";
 import { E2E_CLIENT, E2E_ORIGINS, E2E_USER } from "../fixtures/test-data";
 import {
@@ -9,37 +7,23 @@ import {
 } from "../helpers/oauth-flow";
 
 /**
- * Browser evidence for the Developer Docs surface.
- *
- * The first test is the Sprint 5 protected-route boundary: an unauthenticated
- * request to `/console/docs` is bounced to sign-in and only a real session
- * reaches the documentation inside the Console shell.
- *
- * The second test is the post-evaluation validation added after
- * `docs/sprint5/sprint5-post-evaluation-refinement.md`: the single continuous
- * page became nine route-backed areas with two levels of sticky navigation, and
- * neither the routing nor the sticky behaviour can be observed by the component
- * suite. It also re-checks that the restructure did not drop the reference
- * material the external evaluation rated highest.
+ * Developer Docs in a real browser: the Console auth boundary in front of
+ * `/console/docs`, and the nine route-backed areas with two levels of sticky
+ * navigation, neither of which the component suite can observe.
  *
  * Backend contract behaviour (token exchange, privacy filtering, localization,
- * revocation) is proven by the backend and E2E suites and is not re-tested here.
- *
- * Permanent post-refinement screenshots are written to `docs/sprint5/images/`
- * with a `post-` prefix, so the evidence pack can only be produced by an
- * execution that also passes the assertions above it.
+ * revocation) is covered by the backend and other E2E suites and is not
+ * re-tested here.
  */
 
 const DOCS_PATH = "/console/docs";
 const DOCS_URL = `${E2E_ORIGINS.platform}${DOCS_PATH}`;
 
-/** Wider than the shared 1280x720 evidence viewport: the docs tables need it. */
+/** The docs tables need a wider viewport than the Playwright default. */
 const DOCS_VIEWPORT = { width: 1440, height: 900 } as const;
 
-const IMAGES_DIR = path.resolve(__dirname, "../../../docs/sprint5/images");
-
 /**
- * The nine focused areas the refinement introduced, restated independently of
+ * The nine documentation areas, restated independently of
  * `DOCS_AREAS` so that dropping an area or a section from the implementation
  * fails this test instead of silently shrinking the expectation.
  */
@@ -120,29 +104,6 @@ function sectionNav(page: Page) {
   });
 }
 
-function captureDir() {
-  mkdirSync(IMAGES_DIR, { recursive: true });
-  return IMAGES_DIR;
-}
-
-async function captureViewport(page: Page, filename: string) {
-  // Park the cursor: a tab left under the pointer keeps its hover background
-  // and would read as a second active area in the captured frame.
-  await page.mouse.move(0, 0);
-  await page.screenshot({
-    path: path.join(captureDir(), filename),
-    animations: "disabled",
-  });
-}
-
-async function captureSection(locator: Locator, filename: string) {
-  await locator.scrollIntoViewIfNeeded();
-  await locator.screenshot({
-    path: path.join(captureDir(), filename),
-    animations: "disabled",
-  });
-}
-
 /** Asserts the area is the one on screen: its sections, and nobody else's. */
 async function expectAreaRendered(page: Page, area: (typeof AREAS)[number]) {
   expect(new URL(page.url()).pathname).toBe(area.path);
@@ -158,14 +119,13 @@ async function expectAreaRendered(page: Page, area: (typeof AREAS)[number]) {
     areaNav(page).getByRole("link", { name: area.tab, exact: true }),
   ).toHaveAttribute("aria-current", "page");
 
-  // No area may render a live credential: this is what makes the screenshots
-  // below safe to keep in the repository.
+  // No area may render a live credential.
   const text = await page.locator("main").innerText();
   expect(text).not.toContain(E2E_CLIENT.clientSecret);
   expect(text).not.toContain(E2E_USER.password);
 }
 
-test.describe("developer docs @sprint5", () => {
+test.describe("developer docs", () => {
   test.use({ viewport: DOCS_VIEWPORT });
 
   test("an authenticated owner reaches Developer Docs through the Console auth boundary", async ({
@@ -224,11 +184,11 @@ test.describe("developer docs @sprint5", () => {
   });
 
   /**
-   * Post-evaluation refinement validation. Everything below observes behaviour
-   * the component suite cannot: real route resolution for the nine areas, and
-   * whether the two sticky navigation levels survive an actual browser scroll.
+   * Observes what the component suite cannot: real route resolution for the
+   * nine areas, and whether the two sticky navigation levels survive an actual
+   * browser scroll.
    */
-  test("the refined Developer Docs expose nine focused areas behind sticky navigation @post-refinement", async ({
+  test("Developer Docs expose nine focused areas behind sticky navigation", async ({
     page,
   }) => {
     await clearBrowserAuthState(page);
@@ -239,7 +199,7 @@ test.describe("developer docs @sprint5", () => {
       page.getByRole("heading", { level: 1, name: "Developer Docs" }),
     ).toBeVisible({ timeout: 30_000 });
 
-    // --- Change 1: the Overview area is what `/console/docs` opens on --------
+    // --- The Overview area is what `/console/docs` opens on -----------------
     await expectAreaRendered(page, AREAS[0]);
     await expect(areaNav(page).getByRole("link")).toHaveCount(AREAS.length);
     for (const area of AREAS) {
@@ -248,7 +208,7 @@ test.describe("developer docs @sprint5", () => {
       ).toHaveAttribute("href", area.path);
     }
 
-    // The Overview carries the two blocks the refinement added.
+    // The Overview carries the credential table and the authorization sequence.
     await expect(
       page.getByRole("table", {
         name: /credential and authorization artifact/i,
@@ -256,10 +216,7 @@ test.describe("developer docs @sprint5", () => {
     ).toBeVisible();
     await expect(page.locator("#flow ol > li")).toHaveCount(9);
 
-    // POST-VIS-01 — the refined surface inside the protected Console.
-    await captureViewport(page, "post-01-docs-overview.png");
-
-    // --- Change 1: every area switches, and shows only its own sections ------
+    // --- Every area switches, and shows only its own sections ----------------
     for (const area of AREAS.slice(1)) {
       await areaNav(page)
         .getByRole("link", { name: area.tab, exact: true })
@@ -280,8 +237,7 @@ test.describe("developer docs @sprint5", () => {
     // An unknown slug hits `notFound()`: the not-found page, not an empty
     // documentation shell. (The response carries HTTP 200 rather than 404 —
     // the Console layout's Suspense boundary streams the shell before the page
-    // resolves. Recorded in the post-validation document; the rendered result
-    // is still the not-found page.)
+    // resolves; the rendered result is still the not-found page.)
     await page.goto(`${E2E_ORIGINS.platform}/console/docs/not-an-area`, {
       waitUntil: "domcontentloaded",
     });
@@ -293,13 +249,12 @@ test.describe("developer docs @sprint5", () => {
       waitUntil: "domcontentloaded",
     });
     await expectAreaRendered(page, AREAS[3]);
-    // The placeholder credentials the docs render, in the areas that carry
-    // them: nothing in this evidence pack shows a live secret.
+    // The docs render placeholder credentials, never a live secret.
     const tokenAreaText = await page.locator("main").innerText();
     expect(tokenAreaText).toContain("<SECURISELF_CLIENT_SECRET>");
     expect(tokenAreaText).toContain("scs_client_example");
 
-    // --- Change 2: the two navigation levels are distinct from the Console ---
+    // --- The two navigation levels are distinct from the Console -------------
     const consoleBox = await page
       .getByRole("navigation", { name: "Console" })
       .boundingBox();
@@ -314,7 +269,7 @@ test.describe("developer docs @sprint5", () => {
     // The area bar sits above the section list.
     expect(areaBoxTop!.y + areaBoxTop!.height).toBeLessThanOrEqual(sectionBox!.y);
 
-    // --- Change 2: both stay on screen through a real scroll -----------------
+    // --- Both stay on screen through a real scroll ---------------------------
     await page.evaluate(() => window.scrollTo(0, 1600));
     await expect
       .poll(() => page.evaluate(() => Math.round(window.scrollY)))
@@ -327,10 +282,7 @@ test.describe("developer docs @sprint5", () => {
     expect(areaBoxScrolled!.y).toBeGreaterThanOrEqual(56);
     expect(areaBoxScrolled!.y).toBeLessThanOrEqual(80);
 
-    // POST-VIS-02 — sticky area bar + sticky section list, deep in an area.
-    await captureViewport(page, "post-02-focused-navigation.png");
-
-    // --- Change 2: the sticky section list jumps without obscuring content ---
+    // --- The sticky section list jumps without obscuring content -------------
     await sectionNav(page)
       .getByRole("link", { name: /Server-side token exchange/i })
       .click();
@@ -345,7 +297,7 @@ test.describe("developer docs @sprint5", () => {
     // `scroll-mt-32` must clear the topbar and the sticky area bar.
     expect(headingBox!.y).toBeGreaterThanOrEqual(navBox!.y + navBox!.height);
 
-    // --- Change 2: the sticky area bar is keyboard operable ------------------
+    // --- The sticky area bar is keyboard operable ----------------------------
     const overviewTab = areaNav(page).getByRole("link", {
       name: "Overview",
       exact: true,
@@ -363,7 +315,7 @@ test.describe("developer docs @sprint5", () => {
     );
     await expectAreaRendered(page, AREAS[1]);
 
-    // --- Changes 3 and 4: the new explanatory blocks, on the Overview --------
+    // --- The credential lifecycle and authorization sequence on the Overview -
     await areaNav(page).getByRole("link", { name: "Overview", exact: true }).click();
     await page.waitForURL((url) => url.pathname === DOCS_PATH, {
       timeout: 30_000,
@@ -407,22 +359,7 @@ test.describe("developer docs @sprint5", () => {
       page.getByText(/Sending the code to the profile endpoint returns/i),
     ).toBeVisible();
 
-    // Element captures: unpin the sticky bars so they cannot overlay the top of
-    // a section shot. The real sticky behaviour is recorded in POST-VIS-02.
-    await page.addStyleTag({
-      content:
-        "header { position: static !important; } nav[aria-label='Documentation areas'] { position: static !important; }",
-    });
-
-    // POST-VIS-04 — the authorization sequence.
-    await captureSection(page.locator("#flow"), "post-04-authorization-flow.png");
-    // POST-VIS-03 — the credential lifecycle reference.
-    await captureSection(
-      page.locator("#artifacts"),
-      "post-03-credential-lifecycle.png",
-    );
-
-    // --- Preservation: the request examples the evaluation rated 4.6/5 -------
+    // --- Profile API request examples ----------------------------------------
     await page.goto(`${E2E_ORIGINS.platform}/console/docs/profile-api`, {
       waitUntil: "domcontentloaded",
     });
@@ -434,10 +371,8 @@ test.describe("developer docs @sprint5", () => {
     await expect(
       page.getByRole("button", { name: /^Copy Profile request/ }).first(),
     ).toBeVisible();
-    // POST-VIS-05 — the profile request/response reference under the tab bar.
-    await captureViewport(page, "post-05-token-profile-reference.png");
 
-    // --- Preservation: the Context payload reference rated 4.6/5 -------------
+    // --- Context payload and localization reference --------------------------
     await page.goto(`${E2E_ORIGINS.platform}/console/docs/contexts`, {
       waitUntil: "domcontentloaded",
     });
@@ -448,10 +383,8 @@ test.describe("developer docs @sprint5", () => {
     const contextsText = await page.locator("main").innerText();
     expect(contextsText).toContain("Accept-Language");
     expect(contextsText).toContain("Supported locales are en and es");
-    // POST-VIS-06 — Context payload reference + localization under the tab bar.
-    await captureViewport(page, "post-06-context-revocation-reference.png");
 
-    // --- Preservation: token exchange, revocation and error material ---------
+    // --- Token exchange, revocation and error material -----------------------
     await page.goto(`${E2E_ORIGINS.platform}/console/docs/token-exchange`, {
       waitUntil: "domcontentloaded",
     });

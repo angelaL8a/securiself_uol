@@ -50,7 +50,7 @@ describe("GrantsPage states", () => {
     expect(screen.getByRole("button", { name: /try again/i })).toBeInTheDocument();
   });
 
-  it("describes Grants as current access and links to Activity history (A2)", () => {
+  it("describes Grants as current access and links to Activity history", () => {
     useGrants.mockReturnValue({
       data: [],
       isLoading: false,

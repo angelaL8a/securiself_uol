@@ -26,7 +26,9 @@ test.describe("SOCIAL disclosure happy path", () => {
 
     await selectContextByInternalName(page, E2E_CONTEXTS.SOCIAL.internalName);
 
-    const preview = page.locator("pre, code").filter({ hasText: "AngelaTech" });
+    const preview = page
+      .locator("pre, code")
+      .filter({ hasText: E2E_CONTEXTS.SOCIAL.displayName });
     await expect(preview.first()).toBeVisible();
     const previewJson = await preview.first().innerText();
     for (const forbidden of [
@@ -49,7 +51,11 @@ test.describe("SOCIAL disclosure happy path", () => {
     await expect(
       page.getByText(E2E_CONTEXTS.SOCIAL.displayName).first(),
     ).toBeVisible();
-    await expect(page.getByRole("definition").filter({ hasText: "AngelaTech" })).toBeVisible();
+    await expect(
+      page
+        .getByRole("definition")
+        .filter({ hasText: E2E_CONTEXTS.SOCIAL.username }),
+    ).toBeVisible();
 
     await assertUiHasNoForbiddenText(page, [
       E2E_USER.email,

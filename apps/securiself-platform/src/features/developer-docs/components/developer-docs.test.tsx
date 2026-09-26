@@ -108,8 +108,7 @@ describe("Developer Docs", () => {
     pathname.current = routes.console.docs;
   });
 
-  // Change 3 of the post-evaluation refinement: the lifecycle reference must
-  // keep distinguishing all five values participants conflated.
+  // The lifecycle reference must keep the five easily confused values apart.
   it("distinguishes every credential and authorization artifact", () => {
     render(<DocsAreaView area={DOCS_AREAS[0]} />);
 
@@ -136,7 +135,7 @@ describe("Developer Docs", () => {
     );
   });
 
-  // Change 4: the causal chain has to stay ordered and complete, because the
+  // The causal chain has to stay ordered and complete, because the
   // component renders it as a bare list with no other ordering signal.
   it("states the authorization-code to access-token sequence in order", () => {
     render(<DocsAreaView area={DOCS_AREAS[0]} />);
@@ -248,9 +247,8 @@ function expectInOrder(text: string, markers: string[]) {
   expect(positions).toEqual([...positions].sort((a, b) => a - b));
 }
 
-// Cohort B refinement B1 (docs/external-evaluation/B): the boundary between
-// the callback's authorization code and the access token.
-describe("Developer Docs — B1 authorization code to access token", () => {
+// The boundary between the callback's authorization code and the access token.
+describe("Developer Docs — authorization code to access token", () => {
   it("sends the Authorization callback onward to Token Exchange", () => {
     const callback = renderArea("authorization").querySelector("#callback")!;
 
@@ -351,8 +349,8 @@ describe("Developer Docs — B1 authorization code to access token", () => {
   });
 });
 
-// Cohort B refinement B2: the path from a rejected profile read back to access.
-describe("Developer Docs — B2 revocation recovery path", () => {
+// The path from a rejected profile read back to access.
+describe("Developer Docs — revocation recovery path", () => {
   const RECOVERY = "/console/docs/errors#recovery";
 
   it("explains revoked access on Errors and links to its cause and its restart", () => {

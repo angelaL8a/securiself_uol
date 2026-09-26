@@ -13,7 +13,7 @@ vi.mock("next/navigation", () => ({
 }));
 
 /**
- * Covers the composition the other Sprint 4 suites each cover only half of:
+ * Covers the composition the other Google auth suites each cover only half of:
  * `google-sign-in-button.test.tsx` stubs the hook away and `return-to.test.ts`
  * tests `resolveReturnTo` in isolation, so nothing asserted that a successful
  * Google response actually establishes the SecuriSelf session and lands the

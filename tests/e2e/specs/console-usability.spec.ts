@@ -1,4 +1,5 @@
-import { expect, test, type Page } from "../fixtures/test";
+import type { Page } from "@playwright/test";
+import { expect, test } from "../fixtures/test";
 import {
   fetchAuditLogs,
   fetchPrymeCabProfile,
@@ -18,11 +19,6 @@ import {
   E2E_ORIGINS,
   E2E_USER,
 } from "../fixtures/test-data";
-
-/**
- * Technical checks for the Cohort A post-evaluation refinements (A1–A4).
- * See docs/external-evaluation/A/cohort-a-refinement-validation.md.
- */
 
 const SOCIAL = E2E_CONTEXTS.SOCIAL;
 const PRO = E2E_CONTEXTS.PROFESSIONAL;
@@ -67,16 +63,16 @@ const isFocused = (page: Page, name: RegExp) =>
     .getByRole("button", { name })
     .evaluate((el) => el === document.activeElement);
 
-test.describe("Cohort A refinements", () => {
-  test("A1: keyboard user bypasses navigation, reaches Revoke and confirms", async ({
+test.describe("console and consent usability", () => {
+  test("a keyboard user skips navigation, reaches Revoke and confirms", async ({
     page,
   }) => {
     await authorizeSocial(page);
     await openGrants(page);
     await expect(page.getByText("Active").first()).toBeVisible();
 
-    // Measurement: Tab presses from the top of the page to Revoke when the
-    // skip link is not used (the skip link itself is the first stop).
+    // Tab presses from the top of the page to Revoke without the skip link
+    // (the skip link itself is the first stop).
     let withoutSkip = 0;
     while (!(await isFocused(page, REVOKE_NAME)) && withoutSkip < 30) {
       await page.keyboard.press("Tab");
@@ -106,9 +102,6 @@ test.describe("Cohort A refinements", () => {
     }
     expect(presses).toBe(2);
     expect(2 + presses).toBeLessThan(withoutSkip);
-    console.log(
-      `[A1] key presses to Revoke — without skip link: ${withoutSkip} Tab; with skip link: 1 Tab + 1 Enter + ${presses} Tab`,
-    );
     await expect(revoke).toHaveText("Revoke");
     // The focused permission's row is visually highlighted.
     await expect.poll(rowBackground).not.toBe(idleBackground);
@@ -142,7 +135,7 @@ test.describe("Cohort A refinements", () => {
     expect(after.status()).toBe(401);
   });
 
-  test("A2: Grants and Activity separate current access from history and link to each other", async ({
+  test("Grants and Activity separate current access from history and link to each other", async ({
     page,
   }) => {
     await authorizeSocial(page);
@@ -172,7 +165,7 @@ test.describe("Cohort A refinements", () => {
     );
   });
 
-  test("A3: EN/ES are presented and saved as variants of one Context", async ({
+  test("EN/ES values are edited and saved as variants of one Context", async ({
     page,
   }) => {
     await signInToConsole(page);
@@ -204,7 +197,7 @@ test.describe("Cohort A refinements", () => {
     });
   });
 
-  test("A4: consent lists what is not shared, by label only, for the selected Context", async ({
+  test("consent lists what is not shared, by label only, for the selected Context", async ({
     page,
   }) => {
     await reachConsentScreen(page);

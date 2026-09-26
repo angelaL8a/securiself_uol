@@ -8,7 +8,7 @@ export const E2E_ORIGINS = {
 
 export const E2E_REDIRECT_URI = "http://localhost:3001/api/auth/callback";
 
-/** Served from PrymeCab `public/fixtures/` — no external network dependency for evidence. */
+/** Served from PrymeCab `public/fixtures/` so tests have no external network dependency. */
 export const E2E_AVATAR_URL =
   "http://localhost:3001/fixtures/e2e-avatar.png" as const;
 

@@ -4,7 +4,7 @@ import { ConsoleTopbar } from "./console-topbar";
 export function ConsoleShell({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex min-h-dvh w-full">
-      {/* Bypasses the sidebar and account menu for keyboard users (Cohort A, A1). */}
+      {/* Bypasses the sidebar and account menu for keyboard users. */}
       <a
         href="#main-content"
         className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:rounded-md focus:bg-background focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:ring-[3px] focus:ring-ring"

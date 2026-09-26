@@ -67,7 +67,7 @@ describe("GoogleSignInButton", () => {
   });
 
   it("surfaces a rejected Google credential as a toast, on the Sign In page", async () => {
-    // Sprint 4 F-1: this error used to be wiped by the global 401 reload.
+    // Regression: this error used to be wiped by the global 401 reload.
     render(<GoogleSignInButton />);
     await waitFor(() => expect(capturedCallback).toBeDefined());
 

@@ -9,16 +9,15 @@
     "check-types": "turbo run check-types",
     "test:backend": "pnpm --filter api-backend test",
     "test:platform": "pnpm --filter securiself-platform test",
+    "test:prymecab": "pnpm --filter prymecab-simulator test",
     "test:e2e:prepare": "pnpm exec tsx tests/e2e/setup/run-prepare-cli.ts",
-    "test:e2e": "pnpm test:e2e:prepare && playwright test --grep-invert \"@a11y|@evidence|@sprint2-evidence|@sprint2-candidate-b-review\"",
-    "test:e2e:headed": "pnpm test:e2e:prepare && playwright test --headed --grep-invert \"@a11y|@evidence|@sprint2-evidence|@sprint2-candidate-b-review\"",
+    "test:e2e": "pnpm test:e2e:prepare && playwright test --grep-invert @a11y",
+    "test:e2e:headed": "pnpm test:e2e:prepare && playwright test --headed --grep-invert @a11y",
     "test:e2e:ui": "pnpm test:e2e:prepare && playwright test --ui",
     "test:e2e:report": "playwright show-report",
-    "test:a11y": "pnpm test:e2e:prepare && playwright test --grep \"@a11y\"",
-    "test:evidence:screenshots": "pnpm test:e2e:prepare && playwright test --grep \"@evidence\"",
-    "test:candidate-b-review": "pnpm test:e2e:prepare && playwright test --grep \"@sprint2-candidate-b-review\"",
+    "test:a11y": "pnpm test:e2e:prepare && playwright test --grep @a11y",
     "test:quality": "pnpm lint && pnpm check-types",
-    "test:all": "pnpm test:backend && pnpm test:platform && pnpm test:e2e && pnpm test:a11y && pnpm test:quality"
+    "test:all": "pnpm test:backend && pnpm test:platform && pnpm test:prymecab && pnpm test:e2e && pnpm test:a11y && pnpm test:quality"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.12.1",
@@ -31,6 +30,6 @@
   },
   "packageManager": "pnpm@9.0.0",
   "engines": {
-    "node": ">=18"
+    "node": "^20.19 || ^22.12 || >=24"
   }
 }

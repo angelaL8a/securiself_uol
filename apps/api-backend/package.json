@@ -1,8 +1,7 @@
 {
   "name": "api-backend",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "private": true,
   "scripts": {
     "dev": "tsx watch src/index.ts",
     "build": "prisma generate && tsc",
@@ -11,13 +10,8 @@
     "test:watch": "vitest",
     "check-types": "tsc --noEmit",
     "prisma:generate": "prisma generate",
-    "prisma:migrate": "prisma migrate dev",
-    "prisma:deploy": "prisma migrate deploy",
     "prisma:push": "prisma db push"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "devDependencies": {
     "@types/bcrypt": "^6.0.0",
     "@types/cors": "^2.8.19",

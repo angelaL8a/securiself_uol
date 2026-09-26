@@ -72,7 +72,7 @@ describe("buildProfilePayload privacy rules", () => {
   });
 });
 
-describe("getNotSharedLabels (consent, Cohort A A4)", () => {
+describe("getNotSharedLabels", () => {
   it("lists the blocked labels for each category plus other Contexts", () => {
     expect(getNotSharedLabels("SOCIAL")).toEqual([
       "Legal name",

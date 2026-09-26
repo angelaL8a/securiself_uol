@@ -45,5 +45,3 @@ export const env = {
     .map((origin) => origin.trim())
     .filter(Boolean),
 };
-
-export type Env = typeof env;

@@ -6,7 +6,7 @@ import { ContextForm } from "./context-form";
 const CUE =
   /English and Spanish are language variants of this same Context\. Adding another language does not create a separate Context or permission\./;
 
-describe("ContextForm language variants (Cohort A, A3)", () => {
+describe("ContextForm language variants", () => {
   it("explains that EN/ES are variants of the same Context and names the localisable fields", () => {
     render(<ContextForm mode="create" onSubmit={vi.fn()} />);
     expect(

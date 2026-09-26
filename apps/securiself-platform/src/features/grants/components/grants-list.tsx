@@ -59,7 +59,7 @@ export function GrantsList({ grants, onRevoked }: GrantsListProps) {
               const active = isGrantActive(grant);
               return (
                 // Highlights the whole permission while its Revoke control has
-                // keyboard focus, so the action reads with its row (A1).
+                // keyboard focus, so the action reads with its row.
                 <TableRow key={grant.id} className="has-[:focus-visible]:bg-muted/50">
                   <TableCell className="font-medium">
                     <div>{grant.application.name}</div>

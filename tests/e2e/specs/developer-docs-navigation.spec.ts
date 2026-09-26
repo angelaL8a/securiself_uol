@@ -1,25 +1,16 @@
-import { mkdirSync } from "node:fs";
-import path from "node:path";
 import type { Page } from "@playwright/test";
 import { expect, test } from "../fixtures/test";
 import { E2E_CLIENT, E2E_ORIGINS } from "../fixtures/test-data";
 import { clearBrowserAuthState, signInAsE2EOwner } from "../helpers/oauth-flow";
 
 /**
- * Technical checks for the Cohort B post-evaluation Developer Docs
- * refinements (B1, B2). See
- * docs/external-evaluation/B/cohort-b-refinement-validation.md.
- *
- * The component suite checks link targets; this spec follows the links in a
- * real browser, so it also proves the routes resolve and that the
- * `#recovery` anchor lands below the sticky Console and docs bars.
+ * Cross-area journeys through the Developer Docs. The component suite checks
+ * link targets; this spec follows the links in a real browser, so it also
+ * proves the routes resolve and that the `#recovery` anchor lands below the
+ * sticky Console and docs bars.
  */
 
 const DOCS = `${E2E_ORIGINS.platform}/console/docs`;
-const IMAGES_DIR = path.resolve(
-  __dirname,
-  "../../../docs/external-evaluation/B/images",
-);
 
 function main(page: Page) {
   return page.locator("main");
@@ -63,25 +54,10 @@ async function expectAnchorLanded(page: Page, heading: string) {
   expect(headingBox!.y).toBeGreaterThanOrEqual(barBox!.y + barBox!.height);
 }
 
-async function capture(page: Page, selector: string, filename: string) {
-  mkdirSync(IMAGES_DIR, { recursive: true });
-  // Unpin the sticky bars so they cannot overlay the top of the capture.
-  await page.addStyleTag({
-    content:
-      "header, nav[aria-label='Documentation areas'] { position: static !important; }",
-  });
-  const locator = page.locator(selector);
-  await locator.scrollIntoViewIfNeeded();
-  await locator.screenshot({
-    path: path.join(IMAGES_DIR, filename),
-    animations: "disabled",
-  });
-}
-
-test.describe("cohort B developer docs refinements", () => {
+test.describe("developer docs cross-area navigation", () => {
   test.use({ viewport: { width: 1440, height: 900 } });
 
-  test("B1: the callback leads to a server-side exchange, then to the Profile API", async ({
+  test("the callback leads to a server-side exchange, then to the Profile API", async ({
     page,
   }) => {
     await openDocs(page, "authorization");
@@ -124,8 +100,6 @@ test.describe("cohort B developer docs refinements", () => {
     }
     expect(await main(page).innerText()).not.toContain(E2E_CLIENT.clientSecret);
 
-    await capture(page, "#code-to-token", "b1-code-to-token-transition.png");
-
     await follow(
       page,
       "code-to-token",
@@ -137,12 +111,12 @@ test.describe("cohort B developer docs refinements", () => {
     );
   });
 
-  test("B2: a rejected profile read leads to the recovery path and back to authorization", async ({
+  test("a rejected profile read leads to the recovery path and back to authorization", async ({
     page,
   }) => {
     await openDocs(page, "profile-api");
 
-    // Where the evaluation recorded the first search: the failed request.
+    // Start where an integrator lands after a failed request.
     await follow(
       page,
       "profile",
@@ -171,8 +145,6 @@ test.describe("cohort B developer docs refinements", () => {
       "/console/docs/errors",
     );
     await expectAnchorLanded(page, "Recovering from revoked or expired access");
-
-    await capture(page, "#recovery", "b2-revocation-recovery.png");
 
     // Errors → the beginning of the new authorization.
     await follow(

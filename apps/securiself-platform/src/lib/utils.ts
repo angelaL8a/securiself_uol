@@ -38,10 +38,3 @@ export function formatRelativeTime(
   const diffDays = Math.round(diffHours / 24);
   return formatter.format(diffDays, "day");
 }
-
-/** Masks a secret value, revealing only a short prefix. */
-export function maskSecret(value: string | null | undefined): string {
-  if (!value) return "•".repeat(24);
-  const visible = value.slice(0, 8);
-  return `${visible}${"•".repeat(Math.max(16, value.length - 8))}`;
-}

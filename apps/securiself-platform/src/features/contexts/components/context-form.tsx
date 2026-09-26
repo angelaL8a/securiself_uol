@@ -284,7 +284,7 @@ export function ContextForm({
             </section>
           ) : null}
 
-          {/* surface root-level refinement errors (e.g. social username/displayName) */}
+          {/* Surface root-level schema errors (e.g. social username/displayName). */}
           {errors.username && !stableFields.includes("username") ? (
             <p className="text-xs text-destructive">
               {errors.username.message}

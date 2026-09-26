@@ -13,12 +13,6 @@ export interface ProfileResponse {
   data: Record<string, string | null>;
 }
 
-/**
- * Pure privacy filter. Given the root user and the authorised context, it
- * returns ONLY the fields allowed for that context's category. Forbidden root
- * fields (email, gender, legal identity outside LEGAL, documentId outside
- * LEGAL) are never included.
- */
 function localized(
   scalar: string | null | undefined,
   i18n: unknown,
@@ -27,6 +21,12 @@ function localized(
   return resolveLocalizedText(parseLocalizedVariants(i18n), scalar, locale);
 }
 
+/**
+ * Pure privacy filter. Given the root user and the authorised context, it
+ * returns ONLY the fields allowed for that context's category. Forbidden root
+ * fields (email, gender, legal identity outside LEGAL, documentId outside
+ * LEGAL) are never included.
+ */
 export function filterProfile(
   user: User,
   context: Context,

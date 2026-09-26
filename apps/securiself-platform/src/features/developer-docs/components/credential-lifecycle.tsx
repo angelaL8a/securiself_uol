@@ -11,10 +11,10 @@ import { BoundaryTags, Td, Th } from "./docs-primitives";
 /**
  * Credential and authorization-artifact reference.
  *
- * A table rather than a diagram: the external evaluation showed the friction
- * was in the *attributes* of each value (who holds it, whether a browser may
- * see it, when it is used), which a row/column layout states precisely and a
- * boxes-and-arrows picture only implies. Server-only values carry an icon and
+ * A table rather than a diagram: what matters is the *attributes* of each
+ * value (who holds it, whether a browser may see it, when it is used), which a
+ * row/column layout states precisely and a boxes-and-arrows picture only
+ * implies. Server-only values carry an icon and
  * the word "Never", so the boundary is never communicated by colour alone.
  */
 export function CredentialLifecycle() {

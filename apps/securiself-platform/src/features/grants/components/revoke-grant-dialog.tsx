@@ -64,7 +64,7 @@ export function RevokeGrantDialog({
           Revoke
         </Button>
       </DialogTrigger>
-      {/* Opaque from the first frame: fading in rendered this text below 4.5:1 (F1). */}
+      {/* Opaque from the first frame: fading in rendered this text below 4.5:1 contrast. */}
       <DialogContent className="data-[state=open]:fade-in-100">
         <DialogHeader>
           <DialogTitle>Revoke access for {grant.application.name}?</DialogTitle>

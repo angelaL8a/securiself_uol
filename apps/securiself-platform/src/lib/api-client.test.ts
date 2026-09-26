@@ -56,7 +56,7 @@ describe("api client", () => {
   });
 
   it("does not clear the session or redirect when an unauthenticated request is rejected", async () => {
-    // Sprint 4 F-1: a 401 from /auth/google (or /auth/login) is a rejected
+    // A 401 from /auth/google (or /auth/login) is a rejected
     // credential, not an expired session. The global handler must stay out of
     // the way so the caller's error toast survives on the Sign In page.
     const assign = vi.fn();

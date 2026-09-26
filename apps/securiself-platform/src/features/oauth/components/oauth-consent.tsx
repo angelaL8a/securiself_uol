@@ -97,7 +97,7 @@ export function OAuthConsent() {
     return map;
   }, [contextsQuery.data]);
 
-  if (!hydrated || (hydrated && !token)) {
+  if (!hydrated || !token) {
     return <FullScreenLoader label="Checking your session…" />;
   }
 

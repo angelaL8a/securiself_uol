@@ -54,9 +54,8 @@ test.describe("accessibility @a11y", () => {
       "/console/contexts",
       "/console/contexts/new",
       "/console/clients",
-      // The post-evaluation refinement split Developer Docs into nine routes;
-      // each renders different content (tables, the sticky section aside, the
-      // Radix payload tabs), so each is scanned.
+      // Each Developer Docs area renders different content (tables, the
+      // sticky section aside, the Radix payload tabs), so each is scanned.
       "/console/docs",
       "/console/docs/setup",
       "/console/docs/authorization",
@@ -94,7 +93,7 @@ test.describe("accessibility @a11y", () => {
     await expect(social).toBeFocused();
     await page.keyboard.press("Enter");
     await expect(social).toHaveAttribute("aria-checked", "true");
-    // Cohort A A4: the "Not shared" region renders once a Context is selected.
+    // The "Not shared" region renders once a Context is selected.
     await expect(
       page.getByRole("region", { name: /Not shared with PrymeCab/i }),
     ).toBeVisible();
@@ -123,7 +122,7 @@ test.describe("accessibility @a11y", () => {
     await expect(page.getByText("Active", { exact: true }).first()).toBeVisible();
     await expectNoCriticalOrSeriousViolations(page, "/console/grants-active");
 
-    // Cohort A A1: focused skip link, then the keyboard-highlighted Grant row.
+    // Focused skip link, then the keyboard-highlighted Grant row.
     await page.keyboard.press("Tab");
     await expect(
       page.getByRole("link", { name: "Skip to main content" }),

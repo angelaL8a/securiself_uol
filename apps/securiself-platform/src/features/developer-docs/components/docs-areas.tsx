@@ -41,19 +41,7 @@ import {
 } from "./docs-primitives";
 import { DocsSection } from "./docs-section";
 
-/**
- * The documentation content, one exported component per focused area.
- *
- * The areas were split out of a single continuous page after the external
- * developer evaluation (`docs/sprint5/sprint5-external-evaluation.md`): the
- * technical content is unchanged apart from the two new explanatory blocks
- * (`AuthorizationFlow`, `CredentialLifecycle`), which target the credential /
- * authorization-artifact confusion the evaluation recorded.
- *
- * The Cohort B refinements (`docs/external-evaluation/B`) add the
- * code-to-token transition on Token Exchange (B1) and the revocation recovery
- * path between Grants & Revocation and Errors (B2).
- */
+/** The documentation content, one exported component per focused area. */
 
 /** Cross-area link, e.g. from the callback back to the token exchange. */
 function AreaLink({

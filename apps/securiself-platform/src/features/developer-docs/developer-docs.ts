@@ -12,10 +12,8 @@ export interface DocsSectionMeta {
 
 /**
  * One focused documentation area, rendered as its own route under
- * `/console/docs`. Split out of the previous single continuous page after the
- * external developer evaluation (`docs/sprint5/sprint5-external-evaluation.md`,
- * findings 2 and 4): participants had the information they needed but paid a
- * scrolling cost every time they moved between integration stages.
+ * `/console/docs`, so a reader can move between integration stages without
+ * scrolling through the others.
  */
 export interface DocsAreaMeta {
   /** Route segment under `/console/docs`. Empty string is the index route. */
@@ -156,11 +154,10 @@ export interface CredentialLifecycleRow {
 }
 
 /**
- * Credential and authorization-artifact lifecycle. Answers the questions the
- * external evaluation showed participants re-reading for (finding 5): who holds
- * each value, whether a browser may ever see it, when it is used and what it
- * authorises. Wording is derived from the API backend's OAuth and profiles
- * modules and from the Platform session store (`securiself.auth`).
+ * Credential and authorization-artifact lifecycle: who holds each value,
+ * whether a browser may ever see it, when it is used and what it authorises.
+ * Wording is derived from the API backend's OAuth and profiles modules and
+ * from the Platform session store (`securiself.auth`).
  */
 export const CREDENTIAL_LIFECYCLE: CredentialLifecycleRow[] = [
   {
@@ -227,9 +224,8 @@ export interface AuthorizationFlowStep {
 
 /**
  * The causal chain from user approval to a Context-filtered profile. Rendered
- * as an ordered list so the sequence survives without colour or arrows, which
- * the external evaluation (finding 5) showed participants needed spelled out
- * between the authorization code and the access token.
+ * as an ordered list so the sequence survives without colour or arrows,
+ * including the step between the authorization code and the access token.
  */
 export const AUTHORIZATION_FLOW: AuthorizationFlowStep[] = [
   {
@@ -292,10 +288,10 @@ export const AUTHORIZATION_FLOW: AuthorizationFlowStep[] = [
 ];
 
 /**
- * The callback-to-profile transition, grouped by channel. Cohort B refinement B1
- * (`docs/external-evaluation/B`): one participant took the callback code for
- * the Profile API credential, so the Token Exchange area opens with only the
- * six steps around that boundary instead of repeating the nine-step sequence.
+ * The callback-to-profile transition, grouped by channel. The callback code is
+ * easily mistaken for the Profile API credential, so the Token Exchange area
+ * opens with only the six steps around that boundary instead of repeating the
+ * nine-step sequence.
  */
 export const CODE_TO_TOKEN_TRANSITION: AuthorizationFlowStep[] = [
   {
@@ -346,11 +342,11 @@ export const CODE_TO_TOKEN_TRANSITION: AuthorizationFlowStep[] = [
 ];
 
 /**
- * What happens between a revoked Grant and restored access. Cohort B refinement
- * B2: the facts were already documented, but split across Grants & Revocation
- * and Errors. Wording follows `revokeGrant` (grants.service), which revokes the
- * Grant's access tokens in the same transaction, and `exchangeToken`
- * (oauth.service), which rejects a consumed code.
+ * What happens between a revoked Grant and restored access, in one place
+ * rather than split across Grants & Revocation and Errors. Wording follows
+ * `revokeGrant` (grants.service), which revokes the Grant's access tokens in
+ * the same transaction, and `exchangeToken` (oauth.service), which rejects a
+ * consumed code.
  */
 export const REVOCATION_RECOVERY: AuthorizationFlowStep[] = [
   {

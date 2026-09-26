@@ -1,7 +1,5 @@
 import AxeBuilder from "@axe-core/playwright";
-import { expect, type Page } from "@playwright/test";
-import { mkdirSync, writeFileSync, readFileSync, existsSync } from "node:fs";
-import path from "node:path";
+import { expect, test, type Page } from "@playwright/test";
 
 export interface AxeScanOptions {
   /** Narrow exclusions only for confirmed third-party false positives. */
@@ -32,11 +30,6 @@ export interface AxeScanSummary {
 
 const AXE_TAGS = ["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"] as const;
 
-const SUMMARY_JSON = path.resolve(
-  __dirname,
-  "../../../writeup-evidence/reports/accessibility-summary.json",
-);
-
 function countByImpact(
   items: Array<{ impact?: string | null }>,
 ): Omit<AxeImpactCounts, "incomplete"> {
@@ -58,34 +51,10 @@ function inferApplication(label: string): string {
   return "securiself-platform";
 }
 
-function appendAxeSummary(entry: AxeScanSummary): void {
-  mkdirSync(path.dirname(SUMMARY_JSON), { recursive: true });
-  let existing: { scans: AxeScanSummary[] } = { scans: [] };
-  if (existsSync(SUMMARY_JSON)) {
-    try {
-      existing = JSON.parse(readFileSync(SUMMARY_JSON, "utf8")) as {
-        scans: AxeScanSummary[];
-      };
-      if (!Array.isArray(existing.scans)) existing = { scans: [] };
-    } catch {
-      existing = { scans: [] };
-    }
-  }
-  const withoutDup = existing.scans.filter(
-    (s) => s.routeOrState !== entry.routeOrState,
-  );
-  withoutDup.push(entry);
-  writeFileSync(
-    SUMMARY_JSON,
-    `${JSON.stringify({ generatedAt: new Date().toISOString(), scans: withoutDup }, null, 2)}\n`,
-    "utf8",
-  );
-}
-
 /**
  * Scans the current page and fails on critical/serious violations.
- * Moderate and minor findings are attached to the test report without hiding them.
- * Also appends a machine-readable row to writeup-evidence/reports/accessibility-summary.json.
+ * Moderate and minor findings, and a per-scan summary, are attached to the
+ * Playwright report rather than failing the test.
  */
 export async function expectNoCriticalOrSeriousViolations(
   page: Page,
@@ -112,7 +81,10 @@ export async function expectNoCriticalOrSeriousViolations(
     const summary = advisory
       .map((v) => `${v.impact}: ${v.id} (${v.nodes.length} nodes)`)
       .join("; ");
-    await testInfoAttach(page, `${label}-axe-advisory`, summary);
+    await test.info().attach(`${label}-axe-advisory`, {
+      body: summary,
+      contentType: "text/plain",
+    });
   }
 
   const scanSummary: AxeScanSummary = {
@@ -128,7 +100,10 @@ export async function expectNoCriticalOrSeriousViolations(
     blockingRuleIds: blocking.map((v) => v.id),
     advisoryRuleIds: advisory.map((v) => v.id),
   };
-  appendAxeSummary(scanSummary);
+  await test.info().attach(`${label}-axe-summary`, {
+    body: JSON.stringify(scanSummary, null, 2),
+    contentType: "application/json",
+  });
 
   expect(
     blocking,
@@ -142,23 +117,6 @@ export async function expectNoCriticalOrSeriousViolations(
   ).toEqual([]);
 
   return scanSummary;
-}
-
-async function testInfoAttach(
-  page: Page,
-  name: string,
-  body: string,
-): Promise<void> {
-  // Attach via page context when available; ignore if the runner has no test info.
-  try {
-    const { test } = await import("@playwright/test");
-    await test.info().attach(name, {
-      body,
-      contentType: "text/plain",
-    });
-  } catch {
-    void page;
-  }
 }
 
 export async function expectFocusVisibleOn(

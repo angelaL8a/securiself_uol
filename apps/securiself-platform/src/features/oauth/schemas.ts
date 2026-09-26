@@ -7,5 +7,3 @@ export const oauthParamsSchema = z.object({
   response_type: z.string().min(1),
   scope: z.string().min(1),
 });
-
-export type OAuthParamsValues = z.infer<typeof oauthParamsSchema>;

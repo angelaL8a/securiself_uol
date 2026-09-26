@@ -9,7 +9,7 @@ interface ConsentNotSharedProps {
 
 /**
  * Names notable information the application will not receive for the selected
- * Context (Cohort A, A4). Renders category-derived labels only, never values.
+ * Context. Renders category-derived labels only, never values.
  */
 export function ConsentNotShared({
   applicationName,
