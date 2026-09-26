@@ -340,8 +340,12 @@ export function OAuthConsent() {
                   <XCircle className="size-4" aria-hidden="true" />
                   Deny
                 </Button>
+                {/* No opacity transition: once a Context is selected the button
+                    must render at full contrast immediately, not fade in from
+                    the disabled (50% opacity) state. */}
                 <Button
                   type="button"
+                  className="transition-[color,background-color,border-color,box-shadow]"
                   onClick={() => submitDecision(true)}
                   disabled={
                     !selectedContextId || decision.isPending || redirecting

@@ -41,7 +41,11 @@ export function PayloadPreview({
           <CopyButton value={json} variant="ghost" label={copyLabel} />
         ) : null}
       </div>
-      <pre className="overflow-x-auto p-4 text-xs leading-relaxed">
+      {/* tabIndex keeps the horizontal scroll region reachable by keyboard. */}
+      <pre
+        tabIndex={0}
+        className="overflow-x-auto p-4 text-xs leading-relaxed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring"
+      >
         {requestLine ? (
           <div className="mb-2 font-mono text-[11px] uppercase tracking-wide text-sky-600 dark:text-sky-400">
             {requestLine}

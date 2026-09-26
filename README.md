@@ -21,7 +21,8 @@ Identity Vault → Context → owner consent → authorization code
 4. The Client's server exchanges the code, with its `client_secret`, for an
    opaque access token bound to that owner, Client and Context.
 5. `GET /api/v1/profiles/me` returns only the fields the Context's category
-   allows. Every grant, profile read, failed exchange and revocation is recorded.
+   allows. Grants, profile reads, revocations and failed exchanges of an issued
+   code are recorded.
 
 ## Repository Structure
 
@@ -128,10 +129,11 @@ cp .env.e2e.example                       .env.e2e     # only for the E2E suite
 | `apps/prymecab-simulator/.env.local` | `NEXT_PUBLIC_API_URL`, `NEXT_PUBLIC_SECURISELF_AUTHORIZE_URL`, `NEXT_PUBLIC_REDIRECT_URI`, `NEXT_PUBLIC_CLIENT_ID`, `CLIENT_SECRET` |
 | `.env.e2e` | `E2E_DATABASE_URL`, `ALLOW_E2E_DB_RESET`, `JWT_SECRET`; seeded fixtures live in `tests/e2e/fixtures/test-data.ts` |
 
-Google Sign-In is optional. When `GOOGLE_CLIENT_ID` is empty,
-`POST /api/v1/auth/google` returns `503` and the Platform hides the Google button;
-email/password sign-in is unaffected. If used, both Google variables must hold the
-same OAuth 2.0 Web client ID.
+Google Sign-In is optional and no Google credentials are included. The Platform
+shows the Google button only when `NEXT_PUBLIC_GOOGLE_CLIENT_ID` is set, and the
+API answers `POST /api/v1/auth/google` with `503` when `GOOGLE_CLIENT_ID` is
+empty; email/password sign-in is unaffected. To enable it, set both variables to
+the same OAuth 2.0 Web client ID.
 
 PrymeCab's `NEXT_PUBLIC_CLIENT_ID` and `CLIENT_SECRET` come from registering
 PrymeCab in the Console (see [Demonstration Flow](#demonstration-flow)).
@@ -216,10 +218,11 @@ truncates all tables.
 (`pnpm exec playwright install chromium`), and free ports 3000, 3001 and 8080.
 `pnpm test:e2e:prepare` (run automatically) seeds a fixed owner, four Contexts
 and the PrymeCab client, and builds both Next.js apps. The reset script
-(`tests/e2e/setup/prepare-e2e.ts`) refuses to run outside test/E2E mode, without
-`ALLOW_E2E_DB_RESET=true`, or against the development `DATABASE_URL`. Reports are
-written to
-`playwright-report/` (`pnpm test:e2e:report`).
+(`tests/e2e/setup/prepare-e2e.ts`) truncates the E2E database and refuses to run
+against the development `DATABASE_URL` from `apps/api-backend/.env`. It also
+requires test/E2E mode and `ALLOW_E2E_DB_RESET=true`, but the `pnpm` scripts set
+both, so a separate E2E database is the effective safeguard. Reports are written
+to `playwright-report/` (`pnpm test:e2e:report`).
 
 ## Developer Integration
 
@@ -257,8 +260,10 @@ The Console uses `/api/v1/auth`, `/vault`, `/contexts`, `/clients`, `/grants` an
 - **Revocation** marks the Grant revoked, revokes its access tokens, retires its
   unexchanged codes and records `ACCESS_REVOKED` in one transaction. A new
   consent is required to restore access.
-- **Audit trail.** Consent, profile reads, failed token exchanges (with a reason)
-  and revocations are recorded per owner and shown in Activity.
+- **Audit trail.** Consent, profile reads, revocations and failed exchanges of an
+  issued code (with a reason) are recorded per owner and shown in Activity. A
+  request with an unknown `client_id` or code has no owner to attribute and is
+  rejected without an audit record.
 
 ## Project Scope
 
