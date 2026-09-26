@@ -1,12 +1,13 @@
 import Link from "next/link";
 import { PageHeader } from "@/components/shared/page-header";
 import { Button } from "@/components/ui/button";
-import { DocsTabs } from "@/features/developer-docs/components/docs-tabs";
+import { DocsAreaNav } from "@/features/developer-docs/components/docs-area-nav";
 import { routes } from "@/lib/routes";
 
 /**
- * Shell shared by every documentation area: the page heading and the sticky
- * area navigation stay mounted while the active area's route changes.
+ * Shell shared by every documentation area: the page heading and the area
+ * navigation stay mounted while the active area's route changes. On large
+ * screens the navigation is a sticky sidebar left of the content.
  */
 export default function DeveloperDocsLayout({
   children,
@@ -24,8 +25,10 @@ export default function DeveloperDocsLayout({
           </Button>
         }
       />
-      <DocsTabs />
-      {children}
+      <div className="space-y-6 lg:grid lg:grid-cols-[220px_minmax(0,1fr)] lg:items-start lg:gap-10 lg:space-y-0">
+        <DocsAreaNav />
+        <div className="min-w-0">{children}</div>
+      </div>
     </div>
   );
 }

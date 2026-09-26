@@ -10,7 +10,7 @@ export function DocsSection({ id, title, children }: DocsSectionProps) {
     <section
       id={id}
       aria-labelledby={`${id}-heading`}
-      // Offsets the sticky console topbar and the sticky docs tab bar.
+      // Offsets the sticky console topbar, with room to spare above the heading.
       className="scroll-mt-32 space-y-4"
     >
       <h2

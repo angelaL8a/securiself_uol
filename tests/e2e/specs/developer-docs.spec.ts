@@ -8,8 +8,8 @@ import {
 
 /**
  * Developer Docs in a real browser: the Console auth boundary in front of
- * `/console/docs`, and the nine route-backed areas with two levels of sticky
- * navigation, neither of which the component suite can observe.
+ * `/console/docs`, and the nine route-backed areas behind a sticky vertical
+ * sidebar, neither of which the component suite can observe.
  *
  * Backend contract behaviour (token exchange, privacy filtering, localization,
  * revocation) is covered by the backend and other E2E suites and is not
@@ -29,6 +29,7 @@ const DOCS_VIEWPORT = { width: 1440, height: 900 } as const;
  */
 const AREAS = [
   {
+    number: "01",
     tab: "Overview",
     path: "/console/docs",
     sections: [
@@ -38,6 +39,7 @@ const AREAS = [
     ],
   },
   {
+    number: "02",
     tab: "Application Setup",
     path: "/console/docs/setup",
     sections: [
@@ -46,6 +48,7 @@ const AREAS = [
     ],
   },
   {
+    number: "03",
     tab: "Authorization",
     path: "/console/docs/authorization",
     sections: [
@@ -54,6 +57,7 @@ const AREAS = [
     ],
   },
   {
+    number: "04",
     tab: "Token Exchange",
     path: "/console/docs/token-exchange",
     sections: [
@@ -62,11 +66,13 @@ const AREAS = [
     ],
   },
   {
+    number: "05",
     tab: "Profile API",
     path: "/console/docs/profile-api",
     sections: [{ id: "profile", title: "Retrieve the context-bound profile" }],
   },
   {
+    number: "06",
     tab: "Contexts & Localization",
     path: "/console/docs/contexts",
     sections: [
@@ -75,16 +81,19 @@ const AREAS = [
     ],
   },
   {
+    number: "07",
     tab: "Grants & Revocation",
     path: "/console/docs/grants",
     sections: [{ id: "grants", title: "Grants and revocation" }],
   },
   {
+    number: "08",
     tab: "Errors",
     path: "/console/docs/errors",
     sections: [{ id: "errors", title: "Error reference" }],
   },
   {
+    number: "09",
     tab: "Reference Integration",
     path: "/console/docs/reference-integration",
     sections: [
@@ -94,14 +103,33 @@ const AREAS = [
 ] as const;
 
 function areaNav(page: Page) {
-  return page.getByRole("navigation", { name: "Documentation areas" });
-}
-
-function sectionNav(page: Page) {
   return page.getByRole("navigation", {
-    name: "Documentation sections",
+    name: "Documentation areas",
     exact: true,
   });
+}
+
+/** The numbered sidebar entry for an area, e.g. "04 Token Exchange". */
+function areaLink(page: Page, area: (typeof AREAS)[number]) {
+  return areaNav(page).getByRole("link", {
+    name: `${area.number} ${area.tab}`,
+    exact: true,
+  });
+}
+
+/** The active area's section links, nested under its sidebar entry. */
+function sectionList(page: Page, area: (typeof AREAS)[number]) {
+  return areaNav(page).getByRole("list", {
+    name: `Sections in ${area.tab}`,
+    exact: true,
+  });
+}
+
+/** Bottom edge of the sticky Console topbar, the only sticky bar left. */
+async function topbarBottom(page: Page) {
+  const box = await page.getByRole("banner").boundingBox();
+  expect(box).not.toBeNull();
+  return box!.y + box!.height;
 }
 
 /** Asserts the area is the one on screen: its sections, and nobody else's. */
@@ -115,9 +143,17 @@ async function expectAreaRendered(page: Page, area: (typeof AREAS)[number]) {
     await expect(page.locator(`#${section.id}`)).toHaveCount(1);
   }
 
+  await expect(areaLink(page, area)).toHaveAttribute("aria-current", "page");
+
+  // Only the active area expands, into its own sections, unnumbered.
   await expect(
-    areaNav(page).getByRole("link", { name: area.tab, exact: true }),
-  ).toHaveAttribute("aria-current", "page");
+    areaNav(page).getByRole("list", { name: /^Sections in / }),
+  ).toHaveCount(1);
+  const sections = sectionList(page, area).getByRole("link");
+  await expect(sections).toHaveText(area.sections.map((section) => section.title));
+  for (const [index, section] of area.sections.entries()) {
+    await expect(sections.nth(index)).toHaveAttribute("href", `#${section.id}`);
+  }
 
   // No area may render a live credential.
   const text = await page.locator("main").innerText();
@@ -185,10 +221,10 @@ test.describe("developer docs", () => {
 
   /**
    * Observes what the component suite cannot: real route resolution for the
-   * nine areas, and whether the two sticky navigation levels survive an actual
-   * browser scroll.
+   * nine areas, the sidebar's position beside the content, and whether it
+   * stays pinned through an actual browser scroll.
    */
-  test("Developer Docs expose nine focused areas behind sticky navigation", async ({
+  test("Developer Docs expose nine focused areas behind a sticky vertical sidebar", async ({
     page,
   }) => {
     await clearBrowserAuthState(page);
@@ -201,11 +237,12 @@ test.describe("developer docs", () => {
 
     // --- The Overview area is what `/console/docs` opens on -----------------
     await expectAreaRendered(page, AREAS[0]);
-    await expect(areaNav(page).getByRole("link")).toHaveCount(AREAS.length);
+    // Area links are routes; the nested section links are in-page anchors.
+    await expect(areaNav(page).locator('a:not([href^="#"])')).toHaveCount(
+      AREAS.length,
+    );
     for (const area of AREAS) {
-      await expect(
-        areaNav(page).getByRole("link", { name: area.tab, exact: true }),
-      ).toHaveAttribute("href", area.path);
+      await expect(areaLink(page, area)).toHaveAttribute("href", area.path);
     }
 
     // The Overview carries the credential table and the authorization sequence.
@@ -218,9 +255,7 @@ test.describe("developer docs", () => {
 
     // --- Every area switches, and shows only its own sections ----------------
     for (const area of AREAS.slice(1)) {
-      await areaNav(page)
-        .getByRole("link", { name: area.tab, exact: true })
-        .click();
+      await areaLink(page, area).click();
       await page.waitForURL(
         (url) => url.pathname === area.path,
         { timeout: 30_000 },
@@ -254,37 +289,50 @@ test.describe("developer docs", () => {
     expect(tokenAreaText).toContain("<SECURISELF_CLIENT_SECRET>");
     expect(tokenAreaText).toContain("scs_client_example");
 
-    // --- The two navigation levels are distinct from the Console -------------
+    // --- The sidebar sits between the Console sidebar and the content --------
     const consoleBox = await page
       .getByRole("navigation", { name: "Console" })
       .boundingBox();
     const areaBoxTop = await areaNav(page).boundingBox();
-    const sectionBox = await sectionNav(page).boundingBox();
+    const activeBox = await areaLink(page, AREAS[3]).boundingBox();
+    const sectionBox = await sectionList(page, AREAS[3]).boundingBox();
+    const contentBox = await page.locator("#code-to-token").boundingBox();
     expect(consoleBox).not.toBeNull();
     expect(areaBoxTop).not.toBeNull();
+    expect(activeBox).not.toBeNull();
     expect(sectionBox).not.toBeNull();
-    // The Console sidebar occupies its own column, left of both docs navs.
+    expect(contentBox).not.toBeNull();
+    // The Console sidebar occupies its own column, left of the docs sidebar.
     expect(consoleBox!.x + consoleBox!.width).toBeLessThanOrEqual(areaBoxTop!.x);
-    expect(consoleBox!.x + consoleBox!.width).toBeLessThanOrEqual(sectionBox!.x);
-    // The area bar sits above the section list.
-    expect(areaBoxTop!.y + areaBoxTop!.height).toBeLessThanOrEqual(sectionBox!.y);
+    // The docs sidebar is a column left of the content, not a bar above it.
+    expect(areaBoxTop!.x + areaBoxTop!.width).toBeLessThanOrEqual(contentBox!.x);
+    expect(areaBoxTop!.height).toBeGreaterThan(areaBoxTop!.width);
+    // The section list is nested: directly below its area entry, indented.
+    expect(activeBox!.y + activeBox!.height).toBeLessThanOrEqual(sectionBox!.y);
+    expect(sectionBox!.x).toBeGreaterThan(activeBox!.x);
+    // The horizontal area bar and the "On this page" aside are gone.
+    await expect(page.getByText("On this page", { exact: true })).toHaveCount(0);
+    await expect(
+      page.getByRole("navigation", { name: /Documentation sections/ }),
+    ).toHaveCount(0);
 
-    // --- Both stay on screen through a real scroll ---------------------------
+    // --- The sidebar stays on screen through a real scroll -------------------
     await page.evaluate(() => window.scrollTo(0, 1600));
     await expect
       .poll(() => page.evaluate(() => Math.round(window.scrollY)))
       .toBeGreaterThan(800);
 
     await expect(areaNav(page)).toBeInViewport();
-    await expect(sectionNav(page)).toBeInViewport();
+    await expect(sectionList(page, AREAS[3])).toBeInViewport();
+    const topbar = await topbarBottom(page);
     const areaBoxScrolled = await areaNav(page).boundingBox();
-    // Pinned just below the h-16 (64px) sticky Console topbar, not scrolled away.
-    expect(areaBoxScrolled!.y).toBeGreaterThanOrEqual(56);
-    expect(areaBoxScrolled!.y).toBeLessThanOrEqual(80);
+    // Pinned (`top-24`) just below the h-16 sticky Console topbar.
+    expect(areaBoxScrolled!.y).toBeGreaterThanOrEqual(topbar);
+    expect(areaBoxScrolled!.y).toBeLessThanOrEqual(topbar + 48);
 
-    // --- The sticky section list jumps without obscuring content -------------
-    await sectionNav(page)
-      .getByRole("link", { name: /Server-side token exchange/i })
+    // --- A nested section link jumps without obscuring content ---------------
+    await sectionList(page, AREAS[3])
+      .getByRole("link", { name: "Server-side token exchange", exact: true })
       .click();
     await expect(page).toHaveURL(/#token$/);
     const tokenHeading = page.getByRole("heading", {
@@ -293,21 +341,16 @@ test.describe("developer docs", () => {
     });
     await expect(tokenHeading).toBeInViewport();
     const headingBox = await tokenHeading.boundingBox();
-    const navBox = await areaNav(page).boundingBox();
-    // `scroll-mt-32` must clear the topbar and the sticky area bar.
-    expect(headingBox!.y).toBeGreaterThanOrEqual(navBox!.y + navBox!.height);
+    // `scroll-mt-32` must clear the sticky Console topbar.
+    expect(headingBox!.y).toBeGreaterThanOrEqual(await topbarBottom(page));
+    await expect(areaNav(page)).toBeInViewport();
 
-    // --- The sticky area bar is keyboard operable ----------------------------
-    const overviewTab = areaNav(page).getByRole("link", {
-      name: "Overview",
-      exact: true,
-    });
-    await overviewTab.focus();
-    await expect(overviewTab).toBeFocused();
+    // --- The sidebar is keyboard operable ------------------------------------
+    const overviewLink = areaLink(page, AREAS[0]);
+    await overviewLink.focus();
+    await expect(overviewLink).toBeFocused();
     await page.keyboard.press("Tab");
-    await expect(
-      areaNav(page).getByRole("link", { name: "Application Setup", exact: true }),
-    ).toBeFocused();
+    await expect(areaLink(page, AREAS[1])).toBeFocused();
     await page.keyboard.press("Enter");
     await page.waitForURL(
       (url) => url.pathname === "/console/docs/setup",
@@ -315,8 +358,18 @@ test.describe("developer docs", () => {
     );
     await expectAreaRendered(page, AREAS[1]);
 
+    // --- Nested section links follow the active area in document tab order ---
+    await areaLink(page, AREAS[1]).focus();
+    await page.keyboard.press("Tab");
+    await expect(
+      sectionList(page, AREAS[1]).getByRole("link", {
+        name: AREAS[1].sections[0].title,
+        exact: true,
+      }),
+    ).toBeFocused();
+
     // --- The credential lifecycle and authorization sequence on the Overview -
-    await areaNav(page).getByRole("link", { name: "Overview", exact: true }).click();
+    await areaLink(page, AREAS[0]).click();
     await page.waitForURL((url) => url.pathname === DOCS_PATH, {
       timeout: 30_000,
     });

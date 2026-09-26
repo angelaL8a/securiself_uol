@@ -54,8 +54,8 @@ test.describe("accessibility @a11y", () => {
       "/console/contexts",
       "/console/contexts/new",
       "/console/clients",
-      // Each Developer Docs area renders different content (tables, the
-      // sticky section aside, the Radix payload tabs), so each is scanned.
+      // Each Developer Docs area renders different content (tables, its
+      // nested sidebar sections, the Radix payload tabs), so each is scanned.
       "/console/docs",
       "/console/docs/setup",
       "/console/docs/authorization",

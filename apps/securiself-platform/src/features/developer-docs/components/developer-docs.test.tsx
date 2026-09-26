@@ -16,7 +16,7 @@ import {
 } from "../developer-docs";
 import { DocsAreaView } from "./developer-docs";
 import { DOCS_AREA_CONTENT } from "./docs-areas";
-import { DocsTabs } from "./docs-tabs";
+import { DocsAreaNav } from "./docs-area-nav";
 
 const pathname = vi.hoisted(() => ({ current: "/console/docs" as string }));
 vi.mock("next/navigation", () => ({
@@ -70,42 +70,80 @@ describe("Developer Docs", () => {
     }
   });
 
-  it("points the sticky section navigation at sections present in the same area", () => {
-    for (const area of DOCS_AREAS.filter((entry) => entry.sections.length > 1)) {
+  it("nests only the active area's sections under it, each pointing at an anchor in that area", () => {
+    for (const area of DOCS_AREAS) {
+      pathname.current = docsAreaHref(area.slug);
       const { container, unmount } = render(
-        <DocsAreaView area={area} />,
+        <>
+          <DocsAreaNav />
+          <DocsAreaView area={area} />
+        </>,
       );
 
-      const nav = screen.getByRole("navigation", {
-        name: "Documentation sections",
-      });
+      for (const name of ["Documentation areas", "Documentation areas (compact)"]) {
+        const nav = screen.getByRole("navigation", { name });
+        const nested = within(nav).getAllByRole("list", { name: /^Sections in / });
+        expect(nested).toHaveLength(1);
+        expect(nested[0]).toHaveAccessibleName(`Sections in ${area.label}`);
+
+        // Nested directly under the active area's entry, unnumbered.
+        const activeLink = within(nav).getByRole("link", { current: "page" });
+        expect(nested[0].parentElement).toBe(activeLink.parentElement);
+        const links = within(nested[0]).getAllByRole("link");
+        expect(links.map((link) => link.textContent)).toEqual(
+          area.sections.map((section) => section.title),
+        );
+        expect(links.map((link) => link.getAttribute("href"))).toEqual(
+          area.sections.map((section) => `#${section.id}`),
+        );
+      }
       for (const section of area.sections) {
-        expect(
-          within(nav).getByRole("link", { name: new RegExp(section.title, "i") }),
-        ).toHaveAttribute("href", `#${section.id}`);
         expect(container.querySelector(`#${section.id}`)).not.toBeNull();
       }
       unmount();
     }
+    pathname.current = routes.console.docs;
   });
 
-  it("marks the current area in the sticky area navigation", () => {
+  it("marks the current area in the numbered area navigation", () => {
     pathname.current = "/console/docs/token-exchange";
-    render(<DocsTabs />);
+    render(<DocsAreaNav />);
 
-    const nav = screen.getByRole("navigation", { name: "Documentation areas" });
-    const links = within(nav).getAllByRole("link");
-    expect(links).toHaveLength(DOCS_AREAS.length);
-    expect(links.map((link) => link.getAttribute("href"))).toEqual(
-      DOCS_AREAS.map((area) => docsAreaHref(area.slug)),
-    );
+    for (const name of ["Documentation areas", "Documentation areas (compact)"]) {
+      const nav = screen.getByRole("navigation", { name });
+      // The top level is an ordered list; section links are in-page anchors.
+      const links = within(nav)
+        .getAllByRole("link")
+        .filter((link) => !link.getAttribute("href")?.startsWith("#"));
+      expect(links).toHaveLength(DOCS_AREAS.length);
+      expect(nav.querySelector(":scope > ol")).not.toBeNull();
+      expect(links.map((link) => link.getAttribute("href"))).toEqual(
+        DOCS_AREAS.map((area) => docsAreaHref(area.slug)),
+      );
+      expect(links.map((link) => link.textContent)).toEqual(
+        DOCS_AREAS.map(
+          (area, index) => `${String(index + 1).padStart(2, "0")} ${area.label}`,
+        ),
+      );
 
-    const current = links.filter(
-      (link) => link.getAttribute("aria-current") === "page",
-    );
-    expect(current).toHaveLength(1);
-    expect(current[0]).toHaveTextContent("Token Exchange");
+      const current = links.filter(
+        (link) => link.getAttribute("aria-current") === "page",
+      );
+      expect(current).toHaveLength(1);
+      expect(current[0]).toHaveAccessibleName("04 Token Exchange");
+    }
     pathname.current = routes.console.docs;
+  });
+
+  it("leaves section navigation to the area sidebar, not the page body", () => {
+    for (const area of DOCS_AREAS) {
+      const { unmount } = render(<DocsAreaView area={area} />);
+      expect(screen.queryByText("On this page")).toBeNull();
+      expect(
+        screen.queryByRole("navigation", { name: /Documentation (areas|sections)/ }),
+      ).toBeNull();
+      unmount();
+    }
   });
 
   // The lifecycle reference must keep the five easily confused values apart.

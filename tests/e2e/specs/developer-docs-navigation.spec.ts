@@ -7,7 +7,7 @@ import { clearBrowserAuthState, signInAsE2EOwner } from "../helpers/oauth-flow";
  * Cross-area journeys through the Developer Docs. The component suite checks
  * link targets; this spec follows the links in a real browser, so it also
  * proves the routes resolve and that the `#recovery` anchor lands below the
- * sticky Console and docs bars.
+ * sticky Console topbar.
  */
 
 const DOCS = `${E2E_ORIGINS.platform}/console/docs`;
@@ -26,7 +26,7 @@ async function openDocs(page: Page, slug: string) {
   ).toBeVisible({ timeout: 30_000 });
 }
 
-/** Clicks a link inside one docs section (the area tabs repeat some names). */
+/** Clicks a link inside one docs section (the area sidebar repeats some names). */
 async function follow(
   page: Page,
   section: string,
@@ -42,15 +42,13 @@ async function follow(
   });
 }
 
-/** The target heading is on screen and not hidden under the sticky area bar. */
+/** The target heading is on screen and not hidden under the sticky topbar. */
 async function expectAnchorLanded(page: Page, heading: string) {
   expect(new URL(page.url()).hash).toBe("#recovery");
   const target = page.getByRole("heading", { level: 3, name: heading });
   await expect(target).toBeInViewport();
   const headingBox = await target.boundingBox();
-  const barBox = await page
-    .getByRole("navigation", { name: "Documentation areas" })
-    .boundingBox();
+  const barBox = await page.getByRole("banner").boundingBox();
   expect(headingBox!.y).toBeGreaterThanOrEqual(barBox!.y + barBox!.height);
 }
 
